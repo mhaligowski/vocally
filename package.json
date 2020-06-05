@@ -1,0 +1,22 @@
+{
+  "name": "lark",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sketch.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mhaligowski/lark.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mhaligowski/lark/issues"
+  },
+  "homepage": "https://github.com/mhaligowski/lark#readme",
+  "devDependencies": {
+    "live-server": "^1.2.1"
+  }
+}

@@ -4,7 +4,10 @@ let ready = false;
 
 function setup() {
   let canvas = createCanvas(710, 400);
-  canvas.mousePressed(mousePressed);
+  canvas.mousePressed(() => {
+    ready = true;
+    console.log(" dupa");
+  });
   noFill();
 
   mic = new p5.AudioIn();

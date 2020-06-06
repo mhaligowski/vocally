@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "ES6",
+    "target": "ES2017",
+    "allowJs": true,
+    "strict": true,
+    "sourceMap": true
+  },
+  "exclude": ["node_modules", "webpack.*.js"]
+}

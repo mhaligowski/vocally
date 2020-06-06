@@ -1,4 +1,4 @@
-import * as p5 from "p5";
+import p5 from "p5";
 import "p5/lib/addons/p5.sound";
 
 const sketch = (p: p5) => {
@@ -7,6 +7,14 @@ const sketch = (p: p5) => {
 
   p.setup = () => {
     let canvas = p.createCanvas(710, 1024);
+    canvas.mouseClicked(() => {
+      // Enable the AudioContext to bypass the Chrome security.
+      // AudioContext is not defined in p5 types.
+      // @ts-ignore
+      let ctx = p.getAudioContext();
+      ctx.resume();
+    });
+
     p.noFill();
 
     mic = new p5.AudioIn();
@@ -17,10 +25,11 @@ const sketch = (p: p5) => {
   };
 
   p.draw = () => {
-    p.background(200);
+    p.background(255);
 
     let spectrum = fft.analyze();
     p.beginShape();
+    p.stroke(200);
     for (let i = 0; i < spectrum.length; i++) {
       p.vertex(p.map(spectrum[i], 0, 255, 0, p.width), i);
     }

@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mhaligowski/lark#readme",
   "devDependencies": {
+    "@types/node": "^14.0.11",
     "@types/p5": "^0.9.0",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "html-webpack-plugin": "^4.3.0",
@@ -29,6 +30,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "ml5": "^0.5.0",
     "p5": "^1.0.0"
   }
 }

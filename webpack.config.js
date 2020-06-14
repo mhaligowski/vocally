@@ -15,6 +15,7 @@ module.exports = {
 
   externals: {
     p5: "p5",
+    ml5: "ml5",
   },
 
   module: {

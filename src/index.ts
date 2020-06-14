@@ -46,7 +46,7 @@ const sketch = (p: p5) => {
 
     const rp = await pitch.getPitch();
     if (rp) {
-        p.stroke(0)
+        p.stroke(0);
         p.line(0, rp, p.width, rp);
     }
 

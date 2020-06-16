@@ -1,5 +1,6 @@
 import p5, { AudioIn } from "p5";
 import "p5/lib/addons/p5.sound";
+import "ml5";
 
 const MODEL_URL =
   "https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/";

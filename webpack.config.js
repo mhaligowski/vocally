@@ -6,18 +6,21 @@ const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const ROOT_DIR = path.join(__dirname);
 const SRC_DIR = path.join(ROOT_DIR, "src");
 
-console.log("Root directory", ROOT_DIR);
-console.log("Source directory", SRC_DIR);
+console.log("Root directory:\t\t", ROOT_DIR);
+console.log("Source directory: \t", SRC_DIR);
 
 module.exports = {
   mode: "development",
   devtool: "inline-source-map",
   entry: path.resolve(SRC_DIR, "index.ts"),
 
-  externals: {
-    p5: "p5",
-    ml5: "ml5",
-  },
+  externals: [
+    {
+      p5: "p5",
+      ml5: "ml5",
+      "p5/lib/addons/p5.sound": "p5/lib/addons/p5.sound",
+    },
+  ],
 
   module: {
     rules: [

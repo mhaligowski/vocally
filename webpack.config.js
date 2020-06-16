@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 
 const ROOT_DIR = path.join(__dirname);
 const SRC_DIR = path.join(ROOT_DIR, "src");
@@ -33,6 +34,14 @@ module.exports = {
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),
+    }),
+    new RobotstxtPlugin({
+      policy: [
+        {
+          userAgent: "*",
+          disallow: "*",
+        },
+      ],
     }),
   ],
 

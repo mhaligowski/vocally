@@ -18,7 +18,7 @@ module.exports = {
     {
       p5: "p5",
       ml5: "ml5",
-      "p5/lib/addons/p5.sound": "p5/lib/addons/p5.sound",
+      "p5/lib/addons/p5.sound": "undefined",
     },
   ],
 

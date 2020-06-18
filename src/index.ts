@@ -7,7 +7,6 @@ const MODEL_URL =
 
 const sketch = (p: p5) => {
   let pitch: any;
-  let fft: p5.FFT;
   let mic: p5.AudioIn;
 
   const getAudioContext = (p: p5): AudioContext => {
@@ -34,9 +33,6 @@ const sketch = (p: p5) => {
         mic.stream
       );
     });
-
-    fft = new p5.FFT();
-    fft.setInput(mic);
   };
 
   p.draw = async () => {
@@ -47,18 +43,10 @@ const sketch = (p: p5) => {
 
     const rp = await pitch.getPitch();
     if (rp) {
-        p.stroke(0);
-        p.line(0, rp, p.width, rp);
+      p.stroke(0);
+      p.line(0, rp, p.width, rp);
     }
-
-    let spectrum = fft.analyze();
-    p.beginShape();
-    p.stroke(200);
-    for (let i = 0; i < spectrum.length; i++) {
-      p.vertex(p.map(spectrum[i], 0, 255, 0, p.width), i);
-    }
-    p.endShape();
   };
 };
-// p
+
 new p5(sketch);

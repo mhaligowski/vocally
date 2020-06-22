@@ -11,6 +11,8 @@ const freqToNote = (freq: number): number =>
 const noteToFreq = (note: number): number =>
   440 * Math.pow(2, (note - 69) / 12);
 
+const diff = (a: number, b: number): number => 1200 * Math.log2(b / a);
+
 const notes: string[] = [
   "A", // 21
   "B♭", // 22
@@ -63,21 +65,31 @@ const sketch = (p: p5) => {
     if (!pitch?.running) {
       return;
     }
-    p.background(255);
+    p.fill(0);
+    p.stroke(0);
 
     const rp = await pitch.getPitch();
     const freq: number = rp || currentPitch;
+
     if (currentPitch) {
-      p.stroke(0);
-      p.line(0, currentPitch, p.width, currentPitch);
+      p.background(255);
 
-      const note: number = freqToNote(freq); 
+      const note: number = freqToNote(freq);
       const name: string = noteName(note);
+      const refFreq = noteToFreq(note); // Herz value of the given note
+      const d: number = diff(freq, refFreq);
 
-      p.text(freq + " " + note + " " + name, 10, 30);
+      p.textSize(20);
+      p.text(`${freq.toFixed(2)} ${name} ${d.toFixed(2)}`, 10, 30);
 
+      // Draw reference line.
+      p.color(0,0,255);
+      p.line(0, currentPitch, p.width, currentPitch);
+    
+      p.stroke(196);
+      p.line(0, refFreq, p.width, refFreq);
+      currentPitch = freq;
     }
-    currentPitch = freq;
   };
 };
 

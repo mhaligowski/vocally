@@ -20,3 +20,9 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: make clean dist
+    - uses: actions/checkout@v2
+      with:
+       ref: gh-pages
+    - run: git ls-files | tail -n +2 | xargs rm -rf && mv dist/* .
+    - run: git commit -m "`git show master --quiet --oneline --no-color`"
+    - run: git push origin

@@ -16,13 +16,23 @@ jobs:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 0
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: make clean dist
-    - run: git checkout gh-pages
+    - name: Install dependencies
+      run: npm ci
+    - name: Build distribution
+      run: make clean dist
+    - name: 
+      run: git checkout gh-pages
     - run: git ls-files | tail -n +2 | xargs rm -rf && mv dist/* .
-    - run: git commit -m "`git show master --quiet --oneline --no-color`"
-    - run: git push origin
+    - name: Push distribution
+      uses: github-actions-x/commit@v2.6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        push-branch: 'gh-pages'
+        commit-message: 'publish'
+        force-add: 'true'
+        name: Mateusz Haligowski
+        email: mhaligowski@gmail.com

@@ -33,6 +33,5 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         push-branch: 'gh-pages'
         commit-message: 'publish'
-        force-add: 'true'
         name: Mateusz Haligowski
         email: mhaligowski@gmail.com

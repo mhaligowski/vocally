@@ -83,9 +83,9 @@ const sketch = (p: p5) => {
       p.text(`${freq.toFixed(2)} ${name} ${d.toFixed(2)}`, 10, 30);
 
       // Draw reference line.
-      p.color(0,0,255);
+      p.color(0, 0, 255);
       p.line(0, currentPitch, p.width, currentPitch);
-    
+
       p.stroke(196);
       p.line(0, refFreq, p.width, refFreq);
       currentPitch = freq;

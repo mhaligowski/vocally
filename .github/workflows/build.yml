@@ -24,7 +24,7 @@ jobs:
       run: npm ci
     - name: Build distribution
       run: make clean dist
-    - name: 
+    - name: Checkout the pages branch
       run: git checkout gh-pages
     - run: git ls-files | tail -n +2 | xargs rm -rf && mv dist/* .
     - name: Push distribution

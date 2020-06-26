@@ -1,32 +1,10 @@
 import p5, { AudioIn } from "p5";
 import "p5/lib/addons/p5.sound";
 
+import * as notes from "notes";
+
 const MODEL_URL =
   "https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/";
-
-const freqToNote = (freq: number): number =>
-  Math.round(69 + 12 * Math.log2(freq / 440));
-
-const noteToFreq = (note: number): number =>
-  440 * Math.pow(2, (note - 69) / 12);
-
-const diff = (a: number, b: number): number => 1200 * Math.log2(b / a);
-
-const notes: string[] = [
-  "A", // 21
-  "B♭", // 22
-  "B", // 23
-  "C", // 24
-  "C♯", // 25
-  "D", // 26
-  "D♯", // 27
-  "E", // 28
-  "F", // 29
-  "F♯", // 30
-  "G", // 31
-  "G♯", // 32
-];
-const noteName = (note: number): string => notes[(note - 21) % 12];
 
 const sketch = (p: p5) => {
   let pitch: any;
@@ -73,10 +51,10 @@ const sketch = (p: p5) => {
     if (currentPitch) {
       p.background(255);
 
-      const note: number = freqToNote(freq);
-      const name: string = noteName(note);
-      const refFreq = noteToFreq(note); // Herz value of the given note
-      const d: number = diff(freq, refFreq);
+      const note: number = notes.freqToNote(freq);
+      const name: string = notes.noteName(note);
+      const refFreq = notes.noteToFreq(note); // Herz value of the given note
+      const d: number = notes.diff(freq, refFreq);
 
       p.textSize(20);
       p.text(`${freq.toFixed(2)} ${name} ${d.toFixed(2)}`, 10, 30);

@@ -1,4 +1,5 @@
 import p5 from "p5";
-import { sketch } from "./sketch";
+import { Sketch } from "./sketch";
 
-new p5(sketch);
+const sketch = new Sketch();
+new p5((p: p5) => sketch.run(p));

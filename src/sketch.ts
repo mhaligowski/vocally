@@ -1,73 +1,87 @@
 import p5, { AudioIn } from "p5";
 import "p5/lib/addons/p5.sound";
+import "ml5";
 
 import * as notes from "notes";
 
 const MODEL_URL =
   "https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/";
 
-const sketch = (p: p5) => {
-  let pitch: any;
-  let mic: p5.AudioIn;
+class Sketch {
+  private p?: p5;
+  private pitch: any;
+  private currentPitch: number = 440;
 
-  let currentPitch: number = 440;
+  setup() {
+    if (this.p == undefined) {
+      throw "This can't be run without p set up";
+    }
 
-  const getAudioContext = (p: p5): AudioContext => {
-    // getAudioContext is not defined in p5 types.
-    // @ts-ignore
-    return p.getAudioContext();
-  };
-
-  p.setup = async () => {
-    let canvas = p.createCanvas(710, 1024);
+    // Prepare Canvas. Chrome needs user action before it's able to start the context.
+    // TODO: Size needs to be parameterized. How can p5 change based on the screen size?
+    let canvas = this.p.createCanvas(710, 1024);
     canvas.mouseClicked(() => {
       // Enable the AudioContext to bypass the Chrome security.
-      let ctx: AudioContext = getAudioContext(p);
+      let ctx: AudioContext = this.getAudioContext();
       ctx.resume();
     });
 
-    p.noFill();
+    this.p.noFill();
 
-    mic = new p5.AudioIn();
+    const mic = new p5.AudioIn();
     mic.start(async (args: any[]) => {
-      pitch = await ml5.pitchDetection(
+      this.pitch = await ml5.pitchDetection(
         MODEL_URL,
-        getAudioContext(p),
+        this.getAudioContext(),
         mic.stream
       );
     });
-  };
+  }
 
-  p.draw = async () => {
-    if (!pitch?.running) {
+  async draw() {
+    if (this.p == undefined) {
+      throw "This can't be run without p set up";
+    }
+
+    if (!this.pitch?.running) {
       return;
     }
-    p.fill(0);
-    p.stroke(0);
+    this.p.fill(0);
+    this.p.stroke(0);
 
-    const rp = await pitch.getPitch();
-    const freq: number = rp || currentPitch;
+    const rp = await this.pitch.getPitch();
+    const freq: number = rp || this.currentPitch;
 
-    if (currentPitch) {
-      p.background(255);
+    this.p.background(255);
 
-      const note: number = notes.freqToNote(freq);
-      const name: string = notes.noteName(note);
-      const refFreq = notes.noteToFreq(note); // Herz value of the given note
-      const d: number = notes.diff(freq, refFreq);
+    const note: number = notes.freqToNote(freq);
+    const name: string = notes.noteName(note);
+    const refFreq = notes.noteToFreq(note); // Herz value of the given note
+    const d: number = notes.diff(freq, refFreq);
 
-      p.textSize(20);
-      p.text(`${freq.toFixed(2)} ${name} ${d.toFixed(2)}`, 10, 30);
+    this.p.textSize(20);
+    this.p.text(`${freq.toFixed(2)} ${name} ${d.toFixed(2)}`, 10, 30);
 
-      // Draw reference line.
-      p.color(0, 0, 255);
-      p.line(0, currentPitch, p.width, currentPitch);
+    // Draw reference line.
+    this.p.color(0, 0, 255);
+    this.p.line(0, this.currentPitch, this.p.width, this.currentPitch);
 
-      p.stroke(196);
-      p.line(0, refFreq, p.width, refFreq);
-      currentPitch = freq;
-    }
-  };
-};
+    this.p.stroke(196);
+    this.p.line(0, refFreq, this.p.width, refFreq);
+    this.currentPitch = freq;
+  }
 
-export { sketch };
+  run(p: p5) {
+    this.p = p;
+    p.setup = () => this.setup();
+    p.draw = () => this.draw();
+  }
+
+  private getAudioContext(): AudioContext {
+    // getAudioContext is not defined in p5 types.
+    // @ts-ignore
+    return this.p?.getAudioContext();
+  }
+}
+
+export { Sketch };

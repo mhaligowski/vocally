@@ -59,16 +59,32 @@ class Sketch {
     const refFreq = notes.noteToFreq(note); // Herz value of the given note
     const d: number = notes.diff(freq, refFreq);
 
-    this.p.textSize(20);
-    this.p.text(`${freq.toFixed(2)} ${name} ${d.toFixed(2)}`, 10, 30);
 
-    // Draw reference line.
-    this.p.color(0, 0, 255);
+    this.p.stroke(0, 0, 255);
     this.p.line(0, this.currentPitch, this.p.width, this.currentPitch);
 
-    this.p.stroke(196);
+    this.scale(this.p);
+
+    // Draw reference line.
+    this.p.stroke(0, 0, 255);
     this.p.line(0, refFreq, this.p.width, refFreq);
     this.currentPitch = freq;
+
+    this.p.textSize(20);
+    this.p.text(`${freq.toFixed(2)} ${name} ${d.toFixed(2)}`, 10, this.currentPitch - 5);
+
+  }
+
+  scale(p: p5) {
+    p.stroke(200);
+
+    const multiplier = Math.pow(2, 1 / 12);
+    let freq = 27.5;
+
+    for (let i = 21; i <= 108; i++) {
+      p.line(0, freq, p.width, freq);
+      freq *= multiplier;
+    }
   }
 
   run(p: p5) {

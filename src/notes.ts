@@ -1,5 +1,5 @@
 const freqToNote = (freq: number): number =>
-  Math.round(69 + 12 * Math.log2(freq / 440));
+  69 + 12 * Math.log2(freq / 440);
 
 const noteToFreq = (note: number): number =>
   440 * Math.pow(2, (note - 69) / 12);

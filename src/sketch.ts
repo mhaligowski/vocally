@@ -65,7 +65,6 @@ class Sketch {
     const refFreq = notes.noteToFreq(midiNote); // Herz value of the given note
     const d: number = notes.diff(freq, refFreq);
 
-    console.log(note, note - 21, (note - 21) * bandWidth);
     this.p.stroke(100);
     this.p.line(
       0,

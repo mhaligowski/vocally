@@ -12,27 +12,28 @@ const notes: string[] = [
   "G", // 31
   "G♯", // 32
 ];
-const noteName = (note: number): string => notes[(note - 21) % 12];
+const name = (note: number): string => notes[(note - 21) % 12];
+const octave = (note: number): number => Math.floor(note / 12 - 1);
 
 const noteToFreq = (note: number): number =>
   440 * Math.pow(2, (note - 69) / 12);
 
+const freqToNote = (freq: number): number => 69 + 12 * Math.log2(freq / 440);
+
+const diff = (a: number, b: number): number => 1200 * Math.log2(b / a);
+
 class Note {
-  constructor(private readonly _freq: number) {}
+  readonly frequency: number;
+  readonly note: number;
+  readonly name: string;
+  readonly octave: number;
 
-  get frequency(): number {
-    return 440 * Math.pow(2, (this.note - 69) / 12);
-  }
-  get note(): number {
-    return Math.round(69 + 12 * Math.log2(this._freq / 440));
-  }
+  constructor(private readonly _freq: number) {
+    this.note = Math.round(69 + 12 * Math.log2(this._freq / 440));
 
-  get name(): string {
-    return noteName(this.note);
-  }
-
-  get octave(): number {
-    return Math.floor(this.note / 12 - 1);
+    this.frequency = 440 * Math.pow(2, (this.note - 69) / 12);
+    this.name = name(this.note);
+    this.octave = octave(this.note);
   }
 }
 
@@ -41,10 +42,6 @@ type Result = {
   frequency: number;
   diff: number;
 };
-
-const freqToNote = (freq: number): number => 69 + 12 * Math.log2(freq / 440);
-
-const diff = (a: number, b: number): number => 1200 * Math.log2(b / a);
 
 const note = (freq: number): Result => {
   const n = new Note(freq);
@@ -55,4 +52,4 @@ const note = (freq: number): Result => {
   };
 };
 
-export { freqToNote, noteToFreq, diff, noteName, note };
+export { name, octave, note };

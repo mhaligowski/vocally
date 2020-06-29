@@ -12,4 +12,7 @@ $(DIST):
 clean:
 	rm -rf $(DIST)
 
-.PHONY: run clean
+test:
+	$(NPX) jest
+
+.PHONY: run clean test

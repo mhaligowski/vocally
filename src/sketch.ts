@@ -47,7 +47,8 @@ class Sketch {
 
     const freq: number = rp.value ?? this.currentPitch;
     const newNote = note(freq);
-
+    console.log(newNote);
+    
     // Update the center
     if (rp.value && Math.abs(newNote.target.note - this.center) >= range) {
       this.center = newNote.target.note;

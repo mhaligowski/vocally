@@ -29,9 +29,9 @@ class Note {
   readonly octave: number;
 
   constructor(private readonly _freq: number) {
-    this.note = Math.round(69 + 12 * Math.log2(this._freq / 440));
+    this.note = Math.round(freqToNote(_freq));
 
-    this.frequency = 440 * Math.pow(2, (this.note - 69) / 12);
+    this.frequency = noteToFreq(this.note);
     this.name = name(this.note);
     this.octave = octave(this.note);
   }
@@ -39,6 +39,7 @@ class Note {
 
 type Result = {
   target: Note;
+  note: number;
   frequency: number;
   diff: number;
 };
@@ -48,6 +49,7 @@ const note = (freq: number): Result => {
   return {
     frequency: freq,
     target: n,
+    note: freqToNote(freq),
     diff: diff(n.frequency, freq),
   };
 };

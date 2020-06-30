@@ -1,18 +1,17 @@
 import p5, { AudioIn } from "p5";
 import "p5/lib/addons/p5.sound";
-import "ml5";
 
 import { note, name, octave } from "notes";
+import { pitchDetection } from "./pitch";
 
-const MODEL_URL =
-  "https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/";
-
-const bandWidth: number = 100;
+const bandWidth: number = 80;
+const range: number = 3; // ± halfsteps
 
 class Sketch {
   private p?: p5;
-  private pitch: any;
   private currentPitch: number = 440;
+  private center: number = 48;
+  private pitchGenerator?: Generator<number, any, number>;
 
   setup() {
     if (this.p == undefined) {
@@ -21,7 +20,7 @@ class Sketch {
 
     // Prepare Canvas. Chrome needs user action before it's able to start the context.
     // TODO: Size needs to be parameterized. How can p5 change based on the screen size?
-    let canvas = this.p.createCanvas(710, 4096);
+    let canvas = this.p.createCanvas(800, (2 * range + 1) * bandWidth);
     canvas.mouseClicked(() => {
       // Enable the AudioContext to bypass the Chrome security.
       let ctx: AudioContext = this.getAudioContext();
@@ -31,12 +30,8 @@ class Sketch {
     this.p.noFill();
 
     const mic = new p5.AudioIn();
-    mic.start(async (args: any[]) => {
-      this.pitch = await ml5.pitchDetection(
-        MODEL_URL,
-        this.getAudioContext(),
-        mic.stream
-      );
+    mic.start((args: any[]) => {
+      this.pitchGenerator = pitchDetection(this.getAudioContext(), mic.stream);
     });
   }
 
@@ -45,45 +40,56 @@ class Sketch {
       throw "This can't be run without p set up";
     }
 
-    if (!this.pitch?.running) {
+    const rp = this.pitchGenerator?.next();
+    if (!rp) {
       return;
     }
-    this.p.fill(0);
 
-    this.p.background(255);
-    this.p.stroke(100);
-
-    const rp = await this.pitch.getPitch();
-    const freq: number = rp ?? this.currentPitch;
+    const freq: number = rp.value ?? this.currentPitch;
     const newNote = note(freq);
 
-    this.scale(this.p);
-    this.p.line(
+    // Update the center
+    if (rp.value && Math.abs(newNote.target.note - this.center) >= range) {
+      this.center = newNote.target.note;
+    }
+
+    this.p.fill(0);
+    this.p.background(255);
+    this.p.translate(
       0,
-      (newNote.target.note - 21) * bandWidth,
-      this.p.width,
-      (newNote.target.note - 21) * bandWidth
+      -(this.center - range - 21) * bandWidth + bandWidth * 0.5
     );
 
-    this.p.textSize(20);
+    this.scale(this.p, this.center - range, this.center + range);
+
+    // Draw the pitch line.
+    this.p.stroke(255, 0, 0);
+    const lineY = (newNote.note - 21) * bandWidth;
+    this.p.line(0, lineY, this.p.width, lineY);
+
+    // Write the note.
+    this.p.stroke(0);
+    this.p.fill(0);
+    this.p.textSize(10);
     this.p.text(
       `${freq.toFixed(2)} ${newNote.target.name}${
         newNote.target.octave
       } ${newNote.diff.toFixed(2)}`,
       10,
-      (newNote.target.note - 21) * bandWidth - 5
+      (newNote.note - 21) * bandWidth - 5
     );
 
     this.currentPitch = freq;
   }
 
-  scale(p: p5) {
-    p.stroke(200);
+  scale(p: p5, from: number, to: number) {
+    p.textSize(10);
+    p.stroke(220);
 
-    for (let i = 21; i <= 108; i++) {
+    for (let i = from; i <= to; i++) {
       const y = (i - 21) * bandWidth;
-      p.line(50, y, p.width, y);
-      p.text(`${name(i)}${octave(i)}`, 0, y + 5);
+      p.line(80, y, p.width, y);
+      p.text(`${name(i)}${octave(i)}`, 0, y);
     }
   }
 

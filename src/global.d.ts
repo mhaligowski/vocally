@@ -4,5 +4,5 @@ declare namespace ml5 {
     audioContext: AudioContext,
     stream: MediaStream | null,
     callback?: (error: any, result: any) => void
-  ): undefined | Promise<any>;
+  ): Promise<any> | undefined;
 }

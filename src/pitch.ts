@@ -3,17 +3,19 @@ import "ml5";
 const MODEL_URL =
   "https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/";
 
-function* pitchDetection(
+async function* pitchDetection(
   ctx: AudioContext,
-  stream: MediaStream | null
-): Generator<number, any, number> {
-  let pitchDetection: any = ml5.pitchDetection(MODEL_URL, ctx, stream);
+  stream: MediaStream
+): AsyncGenerator<number, any, number> {
+  const pitchDetection: any = ml5.pitchDetection(MODEL_URL, ctx, stream);
+  console.log("Created pitch detection.", pitchDetection);
+
+  await pitchDetection.ready;
+  console.log("Initialized the model.");
 
   let result: number = 0;
   while (true) {
-    if (!pitchDetection) continue;
-    pitchDetection.getPitch().then((p: number) => (result = p));
-    yield result;
+    yield pitchDetection.getPitch();
   }
 }
 

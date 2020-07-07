@@ -11,9 +11,10 @@ class Sketch {
   private p?: p5;
   private currentPitch: number = 440;
   private center: number = 48;
-  private pitchGenerator?: Generator<number, any, number>;
+  private pitchGenerator?: AsyncGenerator<number, any, number>;
+  private ctx: AudioContext = new AudioContext();
 
-  setup() {
+  async setup() {
     if (this.p == undefined) {
       throw "This can't be run without p set up";
     }
@@ -23,16 +24,21 @@ class Sketch {
     let canvas = this.p.createCanvas(800, (2 * range + 1) * bandWidth);
     canvas.mouseClicked(() => {
       // Enable the AudioContext to bypass the Chrome security.
-      let ctx: AudioContext = this.getAudioContext();
-      ctx.resume();
+      if (this.ctx.state == "suspended") {
+        console.log("Resuming audio context");
+        this.ctx.resume();
+      }
     });
 
     this.p.noFill();
 
-    const mic = new p5.AudioIn();
-    mic.start((args: any[]) => {
-      this.pitchGenerator = pitchDetection(this.getAudioContext(), mic.stream);
+    console.log("Creating microphone");
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false,
     });
+    this.ctx.createMediaStreamSource(stream);
+    this.pitchGenerator = pitchDetection(this.ctx, stream);
   }
 
   async draw() {
@@ -40,15 +46,18 @@ class Sketch {
       throw "This can't be run without p set up";
     }
 
-    const rp = this.pitchGenerator?.next();
+    if (this.ctx.state != "running") {
+      return;
+    }
+
+    const rp = await this.pitchGenerator?.next();
     if (!rp) {
       return;
     }
 
     const freq: number = rp.value ?? this.currentPitch;
     const newNote = note(freq);
-    console.log(newNote);
-    
+
     // Update the center
     if (rp.value && Math.abs(newNote.target.note - this.center) >= range) {
       this.center = newNote.target.note;
@@ -64,46 +73,62 @@ class Sketch {
     this.scale(this.p, this.center - range, this.center + range);
 
     // Draw the pitch line.
+    this.p.fill(0);
     this.p.stroke(255, 0, 0);
+    this.p.strokeWeight(1);
     const lineY = (newNote.note - 21) * bandWidth;
     this.p.line(0, lineY, this.p.width, lineY);
 
     // Write the note.
     this.p.stroke(0);
+    this.p.strokeWeight(0);
     this.p.fill(0);
     this.p.textSize(10);
     this.p.text(
       `${freq.toFixed(2)} ${newNote.target.name}${
         newNote.target.octave
       } ${newNote.diff.toFixed(2)}`,
-      10,
+      80,
       (newNote.note - 21) * bandWidth - 5
     );
 
+    this.p.resetMatrix();
+    this.debug(this.p);
     this.currentPitch = freq;
   }
 
   scale(p: p5, from: number, to: number) {
     p.textSize(10);
-    p.stroke(220);
+    p.fill(0);
 
     for (let i = from; i <= to; i++) {
       const y = (i - 21) * bandWidth;
+      p.strokeWeight(1);
+      p.stroke(220);
       p.line(80, y, p.width, y);
+
+      p.strokeWeight(0);
+      p.stroke(0);
       p.text(`${name(i)}${octave(i)}`, 0, y);
     }
+  }
+
+  debug(p: p5) {
+    p.textSize(10);
+    p.strokeWeight(1);
+    p.fill(255);
+    p.color(0);
+    p.rect(p.width * 0.5, 20, p.width * 0.5, 55);
+
+    p.fill(0);
+    p.strokeWeight(0);
+    p.text("debug info", p.width * 0.5 + 10, 45);
   }
 
   run(p: p5) {
     this.p = p;
     p.setup = () => this.setup();
     p.draw = () => this.draw();
-  }
-
-  private getAudioContext(): AudioContext {
-    // getAudioContext is not defined in p5 types.
-    // @ts-ignore
-    return this.p?.getAudioContext();
   }
 }
 

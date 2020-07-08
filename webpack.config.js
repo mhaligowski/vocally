@@ -12,7 +12,7 @@ console.log("Source directory: \t", SRC_DIR);
 module.exports = {
   mode: "development",
   devtool: "inline-source-map",
-  entry: path.resolve(SRC_DIR, "index.ts"),
+  entry: path.resolve(SRC_DIR, "index.tsx"),
 
   externals: [
     {
@@ -25,7 +25,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /.ts$/,
+        test: /.tsx?$/,
         loader: "ts-loader",
         include: [SRC_DIR],
         exclude: /node_modules/,
@@ -50,7 +50,7 @@ module.exports = {
 
   resolve: {
     modules: [SRC_DIR, "node_modules"],
-    extensions: [".ts", ".js"],
+    extensions: [".ts", ".tsx", ".js"],
   },
 
   devServer: {

@@ -13,7 +13,6 @@ async function* pitchDetection(
   await pitchDetection.ready;
   console.log("Initialized the model.");
 
-  let result: number = 0;
   while (true) {
     yield pitchDetection.getPitch();
   }

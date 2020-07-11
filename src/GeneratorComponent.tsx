@@ -8,13 +8,17 @@ type GeneratorComponentProps = {
 };
 
 const GeneratorComponent = (props: GeneratorComponentProps) => {
+  const [flag, setFlag] = useState(false);
   const [currentValue, setCurrentValue] = useState();
 
   useEffect(() => {
     props.generator.next().then((result) => {
-      !result.done ? setCurrentValue(result.value) : {};
+      if (result.done) return;
+
+      setCurrentValue(result.value);
+      setFlag(!flag);
     });
-  }, [currentValue]);
+  }, [flag]);
 
   return props.children(currentValue);
 };

@@ -4,6 +4,7 @@ import { useState } from "react";
 
 type GeneratorComponentProps = {
   generator: AsyncGenerator<any, any, any>;
+  children: any;
 };
 
 const GeneratorComponent = (props: GeneratorComponentProps) => {
@@ -15,7 +16,7 @@ const GeneratorComponent = (props: GeneratorComponentProps) => {
     });
   }, [currentValue]);
 
-  return <h1>{currentValue}</h1>;
+  return props.children(currentValue);
 };
 
 export { GeneratorComponent };

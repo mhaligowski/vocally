@@ -8,7 +8,6 @@ const sleep = async () => {
 };
 
 async function* randomGenerator(): AsyncGenerator<number> {
-  await sleep();
   yield 1;
   await sleep();
   yield 2;
@@ -22,7 +21,9 @@ export const App = () => (
       <h1>Vocally</h1>
     </header>
     <section>
-      <GeneratorComponent generator={randomGenerator()}></GeneratorComponent>
+      <GeneratorComponent generator={randomGenerator()}>
+        {(value: any) => <h1>{value}</h1>}
+      </GeneratorComponent>
     </section>
     <footer></footer>
   </div>

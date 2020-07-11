@@ -37,14 +37,16 @@ class Note {
   }
 }
 
-type Result = {
+type Pitch = {
   target: Note;
   note: number;
   frequency: number;
   diff: number;
 };
 
-const note = (freq: number): Result => {
+const note = (freq?: number | null): Pitch | undefined => {
+  if (freq === undefined || freq === null) return;
+
   const n = new Note(freq);
   return {
     frequency: freq,
@@ -54,4 +56,4 @@ const note = (freq: number): Result => {
   };
 };
 
-export { name, octave, note };
+export { name, octave, note, Note, Pitch };

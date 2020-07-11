@@ -21,31 +21,27 @@ export const App = () => {
   const [audioContext, _] = useState(new AudioContext());
   const [stream, setStream] = useState<MediaStream>();
 
+  const clickHandler = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: false,
+    });
+    audioContext.createMediaStreamSource(stream);
+    audioContext.resume();
+    setStream(stream);
+  };
   return (
     <div>
       <header>
         <h1>Vocally</h1>
       </header>
       <section>
-        <button
-          onClick={async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({
-              audio: true,
-              video: false,
-            });
-            audioContext.createMediaStreamSource(stream);
-            audioContext.resume();
-            setStream(stream);
-          }}
-        >
-          Start
-        </button>
         {stream ? (
           <GeneratorComponent generator={pitchDetection(audioContext, stream)}>
             {(value: any) => <h1>{value}</h1>}
           </GeneratorComponent>
         ) : (
-          <div />
+          <button onClick={clickHandler}>Start</button>
         )}
       </section>
       <footer></footer>

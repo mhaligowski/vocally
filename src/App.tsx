@@ -6,6 +6,7 @@ export const App = () => (
   <div>
     <header>
       <h1>Vocally</h1>
+      <h2>Sing C4!</h2>
     </header>
     <section>
       <PitchDetection />

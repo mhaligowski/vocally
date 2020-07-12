@@ -56,4 +56,4 @@ const note = (freq?: number | null): Pitch | undefined => {
   };
 };
 
-export { name, octave, note, Note, Pitch };
+export { name, octave, note, Note, Pitch, freqToNote, noteToFreq, diff };

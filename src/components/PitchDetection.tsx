@@ -1,16 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { pitchDetection } from "../pitch/pitch";
-import { Pitch } from "../pitch/notes";
+import { Pitch, noteToFreq, note, diff } from "../pitch/notes";
 
 import { GeneratorComponent } from "./GeneratorComponent";
 
 type PitchValueLineWidgetProps = {
   value?: Pitch;
+  reference?: Pitch;
 };
 
+const print = (n: number): string => {
+  return new Intl.NumberFormat("en-us", {
+    maximumFractionDigits: 2,
+    // @ts-ignore
+    signDisplay: "always",
+  }).format(n);
+}
+
 const PitchValueLineWidget = (props: PitchValueLineWidgetProps) => {
-  if (props.value === undefined) {
+  if (props.value === undefined || props.reference === undefined) {
     return <span />;
   }
 
@@ -18,16 +27,11 @@ const PitchValueLineWidget = (props: PitchValueLineWidgetProps) => {
     maximumFractionDigits: 2,
   }).format(props.value.frequency);
 
-  const diffValue = new Intl.NumberFormat("en-us", {
-    maximumFractionDigits: 2,
-    // @ts-ignore
-    signDisplay: "always",
-  }).format(props.value.diff);
-
+  const refDiff = diff(props.reference.frequency, props.value.frequency);
   return (
     <span>
       {hertzValue} Hz; {props.value.target.name}
-      <sub>{props.value.target.octave}</sub>; {diffValue}
+      <sub>{props.value.target.octave}</sub>; {print(props.value.diff)}; {print(refDiff)}
     </span>
   );
 };
@@ -48,10 +52,13 @@ const PitchDetection = () => {
 
   return stream ? (
     <GeneratorComponent generator={pitchDetection(audioContext, stream)}>
-      {(value: Pitch) => <PitchValueLineWidget value={value} />}
+      {(value: Pitch) => (
+        <PitchValueLineWidget reference={note(noteToFreq(60))} value={value} />
+      )}
     </GeneratorComponent>
   ) : (
     <button onClick={clickHandler}>Start</button>
   );
 };
+
 export { PitchDetection };

@@ -26,7 +26,8 @@ jobs:
       run: make clean dist
     - name: Checkout the pages branch
       run: git checkout gh-pages
-    - run: git ls-files | tail -n +3 | xargs rm -rvf && mv dist/* .
+    - run: git ls-files
+    - run: git ls-files | tail -n +1 | xargs rm -rvf && mv dist/* .
     - name: Push distribution
       uses: github-actions-x/commit@v2.6
       with:

@@ -29,6 +29,10 @@ module.exports = {
         include: [SRC_DIR],
         exclude: /node_modules/,
       },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
     ],
   },
 

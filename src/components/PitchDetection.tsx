@@ -4,10 +4,11 @@ import { pitchDetection } from "../pitch/pitch";
 import { Pitch, noteToFreq, note, diff } from "../pitch/notes";
 
 import { GeneratorComponent } from "./GeneratorComponent";
+import { Timeout } from "./Timeout";
 
 type PitchValueLineWidgetProps = {
   value?: Pitch;
-  reference?: Pitch;
+  reference: Pitch;
 };
 
 const print = (n: number): string => {
@@ -16,22 +17,25 @@ const print = (n: number): string => {
     // @ts-ignore
     signDisplay: "always",
   }).format(n);
-}
+};
 
-const PitchValueLineWidget = (props: PitchValueLineWidgetProps) => {
-  if (props.value === undefined || props.reference === undefined) {
+const PitchValueLineWidget = ({
+  reference,
+  value,
+}: PitchValueLineWidgetProps) => {
+  if (value === undefined) {
     return <span />;
   }
-
   const hertzValue = new Intl.NumberFormat("en-us", {
     maximumFractionDigits: 2,
-  }).format(props.value.frequency);
+  }).format(value.frequency);
 
-  const refDiff = diff(props.reference.frequency, props.value.frequency);
+  const refDiff = diff(reference.frequency, value.frequency);
+
   return (
     <span>
-      {hertzValue} Hz; {props.value.target.name}
-      <sub>{props.value.target.octave}</sub>; {print(props.value.diff)}; {print(refDiff)}
+      {hertzValue} Hz; {value.target.name}
+      <sub>{value.target.octave}</sub>; {print(value.diff)}; {print(refDiff)}
     </span>
   );
 };
@@ -50,12 +54,22 @@ const PitchDetection = () => {
     setStream(stream);
   };
 
+  const remove = async () => {
+    console.log("Finishing the stream.");
+    audioContext.suspend();
+    stream?.getTracks().forEach((t) => t.stop());
+    setStream(undefined);
+  };
+
+  const referencePitch = note(noteToFreq(60)) as Pitch;
   return stream ? (
-    <GeneratorComponent generator={pitchDetection(audioContext, stream)}>
-      {(value: Pitch) => (
-        <PitchValueLineWidget reference={note(noteToFreq(60))} value={value} />
-      )}
-    </GeneratorComponent>
+    <Timeout ms={10000} onTimeout={remove}>
+      <GeneratorComponent generator={pitchDetection(audioContext, stream)}>
+        {(value: Pitch) => (
+          <PitchValueLineWidget reference={referencePitch} value={value} />
+        )}
+      </GeneratorComponent>
+    </Timeout>
   ) : (
     <button onClick={clickHandler}>Start</button>
   );

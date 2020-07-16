@@ -10,12 +10,17 @@ const GeneratorComponent = (props: GeneratorComponentProps) => {
   const [currentValue, setCurrentValue] = useState();
 
   useEffect(() => {
+    let mounted = true;
     props.generator.next().then((result) => {
-      if (result.done) return;
+      if (result.done || !mounted) return;
 
       setCurrentValue(result.value);
       setFlag(!flag);
     });
+
+    return () => {
+      mounted = false;
+    };
   }, [flag]);
 
   return props.children(currentValue);

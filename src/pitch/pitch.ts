@@ -15,6 +15,8 @@ async function* pitchDetection(
   console.log("Initialized the model.");
 
   while (true) {
+    if (!stream.active) return;
+
     const pitch = await pitchDetection.getPitch();
     yield note(pitch);
   }

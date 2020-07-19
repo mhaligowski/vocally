@@ -5,6 +5,7 @@ import { Pitch, noteToFreq, note, diff } from "../pitch/notes";
 
 import { GeneratorComponent } from "./GeneratorComponent";
 import { Timeout } from "./Timeout";
+import { Button } from "react-bootstrap";
 
 type PitchValueLineWidgetProps = {
   value?: Pitch;
@@ -71,7 +72,9 @@ const PitchDetection = () => {
       </GeneratorComponent>
     </Timeout>
   ) : (
-    <button onClick={clickHandler}>Start</button>
+    <Button onClick={clickHandler} variant="outline-primary" size="lg">
+      Start
+    </Button>
   );
 };
 

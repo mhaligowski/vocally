@@ -8,6 +8,7 @@ async function* pitchDetection(
   ctx: AudioContext,
   stream: MediaStream
 ): AsyncGenerator<Pitch | undefined, any, any> {
+  let started = false;
   const pitchDetection: any = ml5.pitchDetection(MODEL_URL, ctx, stream);
   console.log("Created pitch detection.", pitchDetection);
 
@@ -18,6 +19,10 @@ async function* pitchDetection(
     if (!stream.active) return;
 
     const pitch = await pitchDetection.getPitch();
+    if (!started) {
+      console.log("Got first detection", pitch);
+      started = true;
+    }
     yield note(pitch);
   }
 }

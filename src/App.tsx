@@ -2,19 +2,21 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import { PitchDetection } from "./components/PitchDetection";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 export const App = () => (
   <Container>
-    <header>
+    <Row as="header">
       <h1 className="display-1 text-center mt-5">vocally</h1>
-      <h1 className="text-center">sing C4!</h1>
-    </header>
+      <h2 className="text-center">sing C4!</h2>
+    </Row>
 
-    <section className="text-center">
-      <PitchDetection />
-    </section>
+    <Row as="section" className="text-center">
+      <Col>
+        <PitchDetection />
+      </Col>
+    </Row>
 
-    <footer></footer>
+    <Row as="footer"></Row>
   </Container>
 );

@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const DynamicCdnWebpackPlugin = require("dynamic-cdn-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
@@ -10,6 +11,7 @@ const ASSETS_DIR = path.join(ROOT_DIR, "assets");
 
 console.log("Root directory:\t\t", ROOT_DIR);
 console.log("Source directory: \t", SRC_DIR);
+console.log("Assets directory: \t", ASSETS_DIR);
 
 module.exports = {
   mode: "development",
@@ -42,6 +44,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),
     }),
+    new DynamicCdnWebpackPlugin(),
     new FaviconsWebpackPlugin(path.resolve(ASSETS_DIR, "favicon.png")),
     new RobotstxtPlugin({
       policy: [

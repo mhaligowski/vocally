@@ -6,6 +6,7 @@ const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 
 const ROOT_DIR = path.join(__dirname);
 const SRC_DIR = path.join(ROOT_DIR, "src");
+const ASSETS_DIR = path.join(ROOT_DIR, "assets");
 
 console.log("Root directory:\t\t", ROOT_DIR);
 console.log("Source directory: \t", SRC_DIR);
@@ -41,7 +42,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),
     }),
-    new FaviconsWebpackPlugin("assets/favicon.png"),
+    new FaviconsWebpackPlugin(path.resolve(ASSETS_DIR, "favicon.png")),
     new RobotstxtPlugin({
       policy: [
         {

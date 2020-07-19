@@ -7,7 +7,7 @@ run:
 	npx webpack-dev-server
 
 $(DIST):
-	$(WEBPACK)
+	$(WEBPACK) --mode=production
 
 clean:
 	rm -rf $(DIST)

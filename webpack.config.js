@@ -1,9 +1,13 @@
 const path = require("path");
 const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+// Webpack plugins
 const DynamicCdnWebpackPlugin = require("dynamic-cdn-webpack-plugin");
-const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const RobotstxtPlugin = require("robotstxt-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 
 const ROOT_DIR = path.join(__dirname);
 const SRC_DIR = path.join(ROOT_DIR, "src");
@@ -34,7 +38,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
@@ -44,6 +48,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),
     }),
+    new MiniCssExtractPlugin(),
     new DynamicCdnWebpackPlugin(),
     new FaviconsWebpackPlugin(path.resolve(ASSETS_DIR, "favicon.png")),
     new RobotstxtPlugin({

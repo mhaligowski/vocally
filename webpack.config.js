@@ -8,7 +8,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-
 const ROOT_DIR = path.join(__dirname);
 const SRC_DIR = path.join(ROOT_DIR, "src");
 const ASSETS_DIR = path.join(ROOT_DIR, "assets");
@@ -16,6 +15,7 @@ const ASSETS_DIR = path.join(ROOT_DIR, "assets");
 console.log("Root directory:\t\t", ROOT_DIR);
 console.log("Source directory: \t", SRC_DIR);
 console.log("Assets directory: \t", ASSETS_DIR);
+
 
 module.exports = {
   mode: "development",
@@ -47,6 +47,7 @@ module.exports = {
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),
+      title: 'sing vocally'
     }),
     new MiniCssExtractPlugin(),
     new DynamicCdnWebpackPlugin(),

@@ -9,9 +9,11 @@ import clsx from "clsx";
 
 export const App = () => (
   <Container>
-    <Row as="header">
-      <h1 className={clsx("display-1", "text-center", "mt-5", "title")}>vocally</h1>
-      <h2 className="text-center">sing C4!</h2>
+    <Row as="header" className="text-center">
+      <h1 className={clsx("display-1", "mt-5", "title")}>vocally</h1>
+      <h2>
+        sing C<sub>4</sub>
+      </h2>
     </Row>
 
     <Row as="section" className="text-center">

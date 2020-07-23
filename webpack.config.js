@@ -7,18 +7,18 @@ const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { argv } = require("process");
 
 const ROOT_DIR = path.join(__dirname);
 const SRC_DIR = path.join(ROOT_DIR, "src");
 const ASSETS_DIR = path.join(ROOT_DIR, "assets");
 
+console.log("Mode: \t", argv.mode || "development");
 console.log("Root directory:\t\t", ROOT_DIR);
 console.log("Source directory: \t", SRC_DIR);
 console.log("Assets directory: \t", ASSETS_DIR);
 
-
 module.exports = {
-  mode: "development",
   devtool: "inline-source-map",
   entry: path.resolve(SRC_DIR, "index.tsx"),
 
@@ -47,7 +47,7 @@ module.exports = {
     new webpack.ProgressPlugin(),
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),
-      title: 'sing vocally'
+      title: (argv.mode === "production" ? "" : "[DEV]") + " sing vocally",
     }),
     new MiniCssExtractPlugin(),
     new DynamicCdnWebpackPlugin(),

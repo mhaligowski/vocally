@@ -4,7 +4,7 @@ import { pitchDetection } from "../pitch/pitch";
 import { Pitch, noteToFreq, note, diff } from "../pitch/notes";
 
 import { GeneratorComponent } from "./GeneratorComponent";
-import { Timeout } from "./Timeout";
+import { Timeout, useTimeout } from "./Timeout";
 import { Button } from "react-bootstrap";
 
 type PitchValueLineWidgetProps = {
@@ -57,20 +57,20 @@ const PitchDetection = () => {
 
   const remove = async () => {
     console.log("Finishing the stream.");
-    audioContext.suspend();
     stream?.getTracks().forEach((t) => t.stop());
+
     setStream(undefined);
+    audioContext.suspend();
   };
+  useTimeout(remove, 10000);
 
   const referencePitch = note(noteToFreq(60)) as Pitch;
   return stream ? (
-    <Timeout ms={10000} onTimeout={remove}>
-      <GeneratorComponent generator={pitchDetection(audioContext, stream)}>
-        {(value: Pitch) => (
-          <PitchValueLineWidget reference={referencePitch} value={value} />
-        )}
-      </GeneratorComponent>
-    </Timeout>
+    <GeneratorComponent generator={pitchDetection(audioContext, stream)}>
+      {(value: Pitch) => (
+        <PitchValueLineWidget reference={referencePitch} value={value} />
+      )}
+    </GeneratorComponent>
   ) : (
     <Button onClick={clickHandler} variant="outline-primary" size="lg">
       Start

@@ -14,6 +14,7 @@
   },
   "homepage": "https://mhaligowski.github.io/lark",
   "devDependencies": {
+    "@testing-library/react": "^10.4.7",
     "@types/jest": "^26.0.0",
     "@types/node": "^14.0.11",
     "@types/react": "^16.9.41",

@@ -21,6 +21,10 @@ console.log("Assets directory: \t", ASSETS_DIR);
 module.exports = {
   devtool: "inline-source-map",
   entry: path.resolve(SRC_DIR, "index.tsx"),
+  target: "web",
+  node: {
+    fs: "empty"
+  },
 
   externals: [
     {

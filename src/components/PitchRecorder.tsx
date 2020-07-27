@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import { pitchDetection } from "../pitch/pitch";
 import { Pitch, noteToFreq, note, diff } from "../pitch/notes";
 
 import { GeneratorComponent } from "./GeneratorComponent";
-import { useTimeout } from "./Timeout";
+import { getLogger } from "log";
+
+const LOG = getLogger();
 
 type PitchValueLineWidgetProps = {
   value?: Pitch;
@@ -32,44 +33,56 @@ const PitchValueLabel = ({ reference, value }: PitchValueLineWidgetProps) => {
   );
 };
 
+type Sample = Pitch | undefined;
+type PitchGenerator = AsyncGenerator<Sample>;
+type Recording = Sample[];
 type PitchRecorderProps = {
-  onFinish: () => void;
+  pitchGenerator?: PitchGenerator;
+  timeoutMs: number;
+  onFinish: (samples: Recording) => void;
 };
-export function PitchRecorder({ onFinish }: PitchRecorderProps) {
-  const [audioContext, _] = useState(new AudioContext());
-  const [stream, setStream] = useState<MediaStream>();
 
-  const referencePitch = note(noteToFreq(60)) as Pitch;
+export function PitchRecorder({
+  pitchGenerator,
+  timeoutMs,
+  onFinish,
+}: PitchRecorderProps) {
+  const [recording, setRecording] = useState<Recording>([]);
+  const [finished, setFinished] = useState(false);
 
-  // Initialize the audio.
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: true,
-        video: false,
-      })
-      .then((stream) => {
-        audioContext.createMediaStreamSource(stream);
-        audioContext.resume();
-        setStream(stream);
-        console.log("Initialized audio.");
-      });
+    LOG.info("Setting up the timeout.");
+    const t = setTimeout(() => {
+      LOG.debug("Finishing the stream with %d samples.", recording.length);
+      setFinished(true);
+    }, timeoutMs);
+
+    LOG.info("Set up timer %d for %d ms.", t, timeoutMs);
+
+    return () => {
+      LOG.info("Clearing out the timeout %d.", t);
+      clearTimeout(t);
+    };
   }, []);
 
-  const remove = async () => {
-    console.log("Finishing the stream.");
-    stream?.getTracks().forEach((t) => t.stop());
-    audioContext.suspend();
+  useEffect(() => {
+    if (finished) { 
+      LOG.info("Finishing recording.");
+      onFinish(recording);
+    };
+  }, [finished, recording]);
 
-    setStream(undefined);
-    onFinish();
+  const referencePitch = note(noteToFreq(60)) as Pitch;
+  const addSample = (p: Sample) => {
+    const newRecording = recording.concat([p]);
+    setRecording(newRecording);
+    LOG.debug("Recording size: %d", recording.length);
   };
-  useTimeout(remove, 10000);
 
-  return stream ? (
+  return pitchGenerator ? (
     <>
       <h3>Listening...</h3>
-      <GeneratorComponent generator={pitchDetection(audioContext, stream)}>
+      <GeneratorComponent generator={pitchGenerator} onTick={addSample}>
         {(value: Pitch) => (
           <PitchValueLabel reference={referencePitch} value={value} />
         )}

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "module": "ES6",
@@ -7,7 +8,11 @@
     "allowJs": true,
     "strict": true,
     "sourceMap": true,
-    "jsx": "react"
+    "jsx": "react",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "traceResolution": true
   },
   "exclude": ["node_modules", "webpack.*.js"]
 }

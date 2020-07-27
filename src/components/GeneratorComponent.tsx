@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 
-type GeneratorComponentProps = {
-  generator: AsyncGenerator<any, any, any>;
+type GeneratorComponentProps<T> = {
+  generator: AsyncGenerator<T | undefined, any, any>;
   children: any;
+  onTick?: (t: T | undefined) => void;
 };
 
-const GeneratorComponent = (props: GeneratorComponentProps) => {
+function GeneratorComponent<T>(props: GeneratorComponentProps<T>) {
   const [flag, setFlag] = useState(false);
-  const [currentValue, setCurrentValue] = useState();
+  const [currentValue, setCurrentValue] = useState<T | undefined>();
 
   useEffect(() => {
     let mounted = true;
+
     props.generator.next().then((result) => {
       if (result.done || !mounted) return;
 
@@ -23,7 +25,13 @@ const GeneratorComponent = (props: GeneratorComponentProps) => {
     };
   }, [flag]);
 
+  useEffect(() => {
+    if (props.onTick && currentValue) {
+      props.onTick(currentValue);
+    }
+  }, [currentValue]);
+
   return props.children(currentValue);
-};
+}
 
 export { GeneratorComponent };

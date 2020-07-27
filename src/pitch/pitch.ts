@@ -1,30 +1,35 @@
 import "ml5";
-import { note, Pitch } from "./notes";
+
+import { note, Pitch } from "pitch/notes";
+import { getLogger } from "log";
+const LOG = getLogger();
+
+type PitchGenerator = AsyncGenerator<Pitch | undefined>;
 
 const MODEL_URL =
   "https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/";
 
-async function* pitchDetection(
+async function* ml5PitchDetection(
   ctx: AudioContext,
   stream: MediaStream
-): AsyncGenerator<Pitch | undefined, any, any> {
+): PitchGenerator {
   let started = false;
   const pitchDetection: any = ml5.pitchDetection(MODEL_URL, ctx, stream);
-  console.log("Created pitch detection.", pitchDetection);
+  LOG.info("Created pitch detection.", pitchDetection);
 
   await pitchDetection.ready;
-  console.log("Initialized the model.");
+  LOG.info("Initialized the model.");
 
-  while (true) {
-    if (!stream.active) return;
-
+  while (stream.active && ctx.state === "running") {
     const pitch = await pitchDetection.getPitch();
     if (!started) {
-      console.log("Got first detection", pitch);
+      LOG.info("Got first detection %j.", pitch);
       started = true;
     }
     yield note(pitch);
   }
+
+  return;
 }
 
-export { pitchDetection };
+export { PitchGenerator, ml5PitchDetection };

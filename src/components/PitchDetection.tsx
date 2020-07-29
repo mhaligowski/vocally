@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
-
-import { PitchRecorder } from "./PitchRecorder";
-import { ml5PitchDetection, PitchGenerator } from "pitch/pitch";
 import { getLogger } from "log";
 
-const LOG = getLogger();
+import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
+import { Pitch, note, noteToFreq } from "pitch/notes";
 
+import { PitchRecorder } from "./PitchRecorder";
+import { Summary } from "./Summary";
+
+const LOG = getLogger();
 const PitchDetection = () => {
   const [started, setIsStarted] = useState(false);
 
@@ -16,11 +18,11 @@ const PitchDetection = () => {
   const [pitchDetectionGenerator, setPitchDetectionGenerator] = useState<
     PitchGenerator
   >();
+  const [recording, setRecording] = useState<Recording>();
 
   // Set up the microphone.
   useEffect(() => {
     if (!started) {
-      setIsStarted(false);
       return;
     }
 
@@ -61,24 +63,33 @@ const PitchDetection = () => {
     };
   }, [stream, started]);
 
-  return started && pitchDetectionGenerator ? (
-    <PitchRecorder
-      onFinish={(result) => {
-        LOG.info("Result", result);
-        setIsStarted(false);
-      }}
-      pitchGenerator={pitchDetectionGenerator}
-      timeoutMs={3000}
-    />
-  ) : (
-    <Button
-      onClick={() => setIsStarted(true)}
-      variant="outline-primary"
-      size="lg"
-    >
-      Start
-    </Button>
-  );
+  if (recording !== undefined) {
+    const referencePitch = note(noteToFreq(60)) as Pitch;
+
+    return <Summary recording={recording} reference={referencePitch} />;
+  } else if (started && pitchDetectionGenerator) {
+    return (
+      <PitchRecorder
+        onFinish={(result) => {
+          LOG.info("Result", result);
+          setIsStarted(false);
+          setRecording(recording);
+        }}
+        pitchGenerator={pitchDetectionGenerator}
+        timeoutMs={3000}
+      />
+    );
+  } else {
+    return (
+      <Button
+        onClick={() => setIsStarted(true)}
+        variant="outline-primary"
+        size="lg"
+      >
+        Start
+      </Button>
+    );
+  }
 };
 
 export { PitchDetection };

@@ -4,7 +4,10 @@ import { note, Pitch } from "pitch/notes";
 import { getLogger } from "log";
 const LOG = getLogger();
 
-type PitchGenerator = AsyncGenerator<Pitch | undefined>;
+
+export type Sample = Pitch | undefined;
+export type Recording = Sample[];
+type PitchGenerator = AsyncGenerator<Sample>;
 
 const MODEL_URL =
   "https://cdn.jsdelivr.net/gh/ml5js/ml5-data-and-models/models/pitch-detection/crepe/";

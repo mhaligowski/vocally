@@ -1,40 +1,13 @@
 import React, { useState, useEffect } from "react";
 
 import { Pitch, noteToFreq, note, diff } from "../pitch/notes";
+import { PitchGenerator, Sample } from "pitch/pitch";
 
 import { GeneratorComponent } from "./GeneratorComponent";
 import { getLogger } from "log";
 
 const LOG = getLogger();
 
-type PitchValueLineWidgetProps = {
-  value?: Pitch;
-  reference: Pitch;
-};
-
-const print = (n: number): string => {
-  return new Intl.NumberFormat("en-us", {
-    maximumFractionDigits: 2,
-    // @ts-ignore
-    signDisplay: "always",
-  }).format(n);
-};
-
-const PitchValueLabel = ({ reference, value }: PitchValueLineWidgetProps) => {
-  if (value === undefined) {
-    return <span>nothing...</span>;
-  }
-  const refDiff = diff(reference.frequency, value.frequency);
-  return (
-    <span>
-      {print(value.frequency)} Hz | {value.target.name}
-      <sub>{value.target.octave}</sub> | {print(value.diff)}; {print(refDiff)}
-    </span>
-  );
-};
-
-type Sample = Pitch | undefined;
-type PitchGenerator = AsyncGenerator<Sample>;
 type Recording = Sample[];
 type PitchRecorderProps = {
   pitchGenerator?: PitchGenerator;
@@ -66,13 +39,12 @@ export function PitchRecorder({
   }, []);
 
   useEffect(() => {
-    if (finished) { 
+    if (finished) {
       LOG.info("Finishing recording.");
       onFinish(recording);
-    };
+    }
   }, [finished, recording]);
 
-  const referencePitch = note(noteToFreq(60)) as Pitch;
   const addSample = (p: Sample) => {
     const newRecording = recording.concat([p]);
     setRecording(newRecording);
@@ -81,11 +53,8 @@ export function PitchRecorder({
 
   return pitchGenerator ? (
     <>
-      <h3>Listening...</h3>
       <GeneratorComponent generator={pitchGenerator} onTick={addSample}>
-        {(value: Pitch) => (
-          <PitchValueLabel reference={referencePitch} value={value} />
-        )}
+        {(value: Pitch) => <h3>Listening...</h3>}
       </GeneratorComponent>
     </>
   ) : (

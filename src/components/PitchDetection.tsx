@@ -76,7 +76,7 @@ const PitchDetection = () => {
           setRecording(recording);
         }}
         pitchGenerator={pitchDetectionGenerator}
-        timeoutMs={3000}
+        timeoutMs={10000}
       />
     );
   } else {

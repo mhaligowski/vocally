@@ -8,8 +8,7 @@ run:
 		--config=./config/webpack.dev.js
 
 $(DIST):
-	$(WEBPACK) \ 
-		--config=./config/webpack.test.js 
+	$(WEBPACK) --config=./config/webpack.test.js 
 
 clean:
 	rm -rf $(DIST)

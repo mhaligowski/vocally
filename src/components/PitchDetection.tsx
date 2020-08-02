@@ -34,9 +34,10 @@ const PitchDetection = () => {
       })
       .then((newStream) => {
         LOG.debug(
-          "Microphone initialized with stream: %j, active? %s.",
+          "Microphone initialized with stream: %j, active?, %s, state: %s.",
           newStream,
-          newStream.active
+          newStream.active,
+          newStream.getAudioTracks()[0].readyState
         );
         setStream(newStream);
       });

@@ -33,8 +33,11 @@ const PitchDetection = () => {
         video: false,
       })
       .then((newStream) => {
-        LOG.debug("Microphone initialized with stream: %j.", newStream);
-        LOG.debug("New stream is active? %j", newStream.active);
+        LOG.debug(
+          "Microphone initialized with stream: %j, active? %s.",
+          newStream,
+          newStream.active
+        );
         setStream(newStream);
       });
   }, [started]);
@@ -71,12 +74,12 @@ const PitchDetection = () => {
     return (
       <PitchRecorder
         onFinish={(result) => {
-          LOG.info("Result", result);
+          LOG.info("Result, %j", result);
+          setRecording(result);
           setIsStarted(false);
-          setRecording(recording);
         }}
         pitchGenerator={pitchDetectionGenerator}
-        timeoutMs={10000}
+        timeoutMs={5000}
       />
     );
   } else {

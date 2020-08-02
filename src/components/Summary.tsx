@@ -17,11 +17,12 @@ export function Summary({ recording, reference }: SummaryProps) {
     .filter((s?: Sample) => !!s)
     .map((s: Sample) => s!.frequency - reference.frequency);
   const sum = result.reduce((a, b) => a + b, 0);
+  LOG.info("Sum: %f", sum);
 
   return (
     <Alert variant={"success"}>
       Received {result.length} sample(s) averaging to {sum / result.length} from
-      C4.
+      C<sub>4</sub>.
     </Alert>
   );
 }

@@ -26,7 +26,6 @@ export function PitchRecorder({
   useEffect(() => {
     LOG.info("Setting up the timeout.");
     const t = setTimeout(() => {
-      LOG.debug("Finishing the stream with %d samples.", recording.length);
       setFinished(true);
     }, timeoutMs);
 
@@ -48,7 +47,6 @@ export function PitchRecorder({
   const addSample = (p: Sample) => {
     const newRecording = recording.concat([p]);
     setRecording(newRecording);
-    LOG.debug("Recording size: %d", recording.length);
   };
 
   return pitchGenerator ? (

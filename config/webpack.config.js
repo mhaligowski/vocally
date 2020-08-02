@@ -4,12 +4,11 @@ const webpack = require("webpack");
 // Webpack plugins
 const DynamicCdnWebpackPlugin = require("dynamic-cdn-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { argv } = require("process");
 
-const ROOT_DIR = path.join(__dirname);
+const ROOT_DIR = path.join(__dirname, "..");
 const SRC_DIR = path.join(ROOT_DIR, "src");
 const ASSETS_DIR = path.join(ROOT_DIR, "assets");
 
@@ -19,7 +18,6 @@ console.log("Source directory: \t", SRC_DIR);
 console.log("Assets directory: \t", ASSETS_DIR);
 
 module.exports = {
-  devtool: "inline-source-map",
   entry: path.resolve(SRC_DIR, "index.tsx"),
   target: "web",
   node: {
@@ -49,10 +47,6 @@ module.exports = {
 
   plugins: [
     new webpack.ProgressPlugin(),
-    new HtmlWebpackPlugin({
-      template: path.resolve(SRC_DIR, "index.html"),
-      title: (argv.mode === "production" ? "" : "[DEV]") + " sing vocally",
-    }),
     new MiniCssExtractPlugin(),
     new DynamicCdnWebpackPlugin(),
     new FaviconsWebpackPlugin(path.resolve(ASSETS_DIR, "favicon.png")),
@@ -69,9 +63,5 @@ module.exports = {
   resolve: {
     modules: [SRC_DIR, "node_modules"],
     extensions: [".ts", ".tsx", ".js"],
-  },
-
-  devServer: {
-    open: true,
   },
 };

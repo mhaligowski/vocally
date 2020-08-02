@@ -36,7 +36,8 @@
     "typescript": "^3.9.5",
     "webpack": "^4",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.0.9"
   },
   "dependencies": {
     "bootstrap": "^5.0.0-alpha1",

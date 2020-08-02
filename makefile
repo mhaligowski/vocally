@@ -4,10 +4,12 @@ WEBPACK=$(NPX) webpack
 DIST=dist
 
 run:
-	npx webpack-dev-server
+	$(NPX) webpack-dev-server \
+		--config=./config/webpack.dev.js
 
 $(DIST):
-	$(WEBPACK) --mode=production
+	$(WEBPACK) \ 
+		--config=./config/webpack.test.js 
 
 clean:
 	rm -rf $(DIST)

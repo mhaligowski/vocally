@@ -1,18 +1,8 @@
-import winston from "winston";
+export interface Logger {
+  info(...args: any[]): void;
+}
 
-let INSTANCE: winston.Logger;
-export function getLogger(): winston.Logger {
-  if (INSTANCE === undefined) {
-    INSTANCE = winston.createLogger({
-      level: "debug",
-      transports: [new winston.transports.Console()],
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.splat(),
-        winston.format.simple()
-      ),
-    });
-
-  }
-  return INSTANCE;
+// Dummy placeholder for a logging function
+export function getLogger(): Logger {
+  throw new Error("This is unimplemented.");
 }

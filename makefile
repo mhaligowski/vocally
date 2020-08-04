@@ -8,7 +8,10 @@ run:
 		--config=./config/webpack.dev.js
 
 $(DIST):
-	$(WEBPACK) --config=./config/webpack.test.js 
+	$(WEBPACK) --config=./config/webpack.testing.js 
+
+analyze:
+	$(WEBPACK) --config=./config/webpack.analyze.js 
 
 clean:
 	rm -rf $(DIST)
@@ -16,4 +19,4 @@ clean:
 test:
 	$(NPX) jest
 
-.PHONY: run clean test
+.PHONY: run clean test analyze

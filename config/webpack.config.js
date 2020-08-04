@@ -6,22 +6,20 @@ const DynamicCdnWebpackPlugin = require("dynamic-cdn-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const { argv } = require("process");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const SRC_DIR = path.join(ROOT_DIR, "src");
 const ASSETS_DIR = path.join(ROOT_DIR, "assets");
 
-console.log("Mode: \t", argv.mode || "development");
-console.log("Root directory:\t\t", ROOT_DIR);
-console.log("Source directory: \t", SRC_DIR);
-console.log("Assets directory: \t", ASSETS_DIR);
+console.debug("Root directory:\t\t", ROOT_DIR);
+console.debug("Source directory: \t", SRC_DIR);
+console.debug("Assets directory: \t", ASSETS_DIR);
 
 module.exports = {
   entry: path.resolve(SRC_DIR, "index.tsx"),
   target: "web",
   node: {
-    fs: "empty"
+    fs: "empty",
   },
 
   externals: [

@@ -11,6 +11,12 @@ module.exports = merge(common, {
   mode: "production",
   devtool: "inline-source-map",
 
+  resolve: {
+    alias: {
+      log: path.resolve(SRC_DIR, "log.testing.ts"),
+    },
+  },
+
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),

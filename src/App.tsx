@@ -1,5 +1,4 @@
 import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import { PitchDetection } from "./components/PitchDetection";
@@ -11,7 +10,7 @@ import { getLogger } from "log";
 const LOG = getLogger();
 
 export const App = () => {
-  LOG.info("Starting app.")
+  LOG.info("Starting app.");
   return (
     <Container>
       <Row as="header" className="text-center">

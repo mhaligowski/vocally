@@ -31,7 +31,11 @@ function GeneratorComponent<T>(props: GeneratorComponentProps<T>) {
     }
   }, [currentValue]);
 
-  return props.children(currentValue);
+  if (typeof props.children === "function") {
+    return props.children(currentValue);
+  } else {
+    return props.children;
+  }
 }
 
 export { GeneratorComponent };

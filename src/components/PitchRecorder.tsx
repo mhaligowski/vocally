@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-import { Pitch, noteToFreq, note, diff } from "../pitch/notes";
 import { PitchGenerator, Sample } from "pitch/pitch";
 
 import { GeneratorComponent } from "./GeneratorComponent";

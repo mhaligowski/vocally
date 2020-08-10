@@ -12,7 +12,7 @@ const LOG = getLogger();
 export const App = () => {
   LOG.info("Starting app.");
   return (
-    <>
+    <Container>
       <header className={clsx("text-center", "mt-5")}>
         <h1 className={clsx("display-1", "title")}>vocally</h1>
         <h2>
@@ -29,6 +29,6 @@ export const App = () => {
           <p>vocally.app 2020</p>
         </Container>
       </footer>
-    </>
+    </Container>
   );
 };

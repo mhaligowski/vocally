@@ -2,31 +2,33 @@ import React from "react";
 import "./App.css";
 
 import { PitchDetection } from "./components/PitchDetection";
-import { Container, Row, Col } from "react-bootstrap";
 
 import clsx from "clsx";
 
 import { getLogger } from "log";
+import { Container, Col, Row } from "react-bootstrap";
 const LOG = getLogger();
 
 export const App = () => {
   LOG.info("Starting app.");
   return (
-    <Container>
-      <Row as="header" className="text-center">
-        <h1 className={clsx("display-1", "mt-5", "title")}>vocally</h1>
+    <>
+      <header className={clsx("text-center", "mt-5")}>
+        <h1 className={clsx("display-1", "title")}>vocally</h1>
         <h2>
-          sing C<sub>4</sub>
+          sing C<sub>4</sub>!
         </h2>
-      </Row>
+      </header>
 
-      <Row as="section" className="text-center">
-        <Col>
-          <PitchDetection />
-        </Col>
-      </Row>
+      <main className={clsx("text-center", "py-5")} role="main">
+        <PitchDetection />
+      </main>
 
-      <Row as="footer"></Row>
-    </Container>
+      <footer className={clsx("py-3", "border-top", "text-muted")}>
+        <Container>
+          <p>vocally.app 2020</p>
+        </Container>
+      </footer>
+    </>
   );
 };

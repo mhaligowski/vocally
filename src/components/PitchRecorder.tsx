@@ -5,6 +5,7 @@ import { PitchGenerator, Sample } from "pitch/pitch";
 
 import { GeneratorComponent } from "./GeneratorComponent";
 import { getLogger } from "log";
+import { Spinner } from "react-bootstrap";
 
 const LOG = getLogger();
 
@@ -57,13 +58,17 @@ export function PitchRecorder({
     }
   };
 
-  const label = !started ? "Waiting..." : "Listening...";
+  const label = !started ? (
+    <span>sing now!</span>
+  ) : (
+    <Spinner animation="grow" variant="danger" />
+  );
 
   return pitchGenerator ? (
     <GeneratorComponent generator={pitchGenerator} onTick={addSample}>
       <h3>{label}</h3>
     </GeneratorComponent>
   ) : (
-    <span>Waiting...</span>
+    <Spinner animation="border" variant="primary" />
   );
 }

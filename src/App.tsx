@@ -6,7 +6,7 @@ import { PitchDetection } from "./components/PitchDetection";
 import clsx from "clsx";
 
 import { getLogger } from "log";
-import { Container, Col, Row } from "react-bootstrap";
+import { Container } from "react-bootstrap";
 const LOG = getLogger();
 
 export const App = () => {

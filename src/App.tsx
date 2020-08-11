@@ -14,8 +14,8 @@ export const App = () => {
   return (
     <Container>
       <header className={clsx("text-center", "mt-5")}>
-        <h1 className={clsx("display-1", "title")}>vocally</h1>
-        <h2>
+        <h1 className={clsx("display-1", "text-primary", "title")}>vocally</h1>
+        <h2 className={"text-secondary"}>
           sing C<sub>4</sub>!
         </h2>
       </header>

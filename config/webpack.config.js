@@ -25,6 +25,7 @@ module.exports = {
   externals: [
     {
       ml5: "ml5",
+      logrocket: "LogRocket"
     },
   ],
 

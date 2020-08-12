@@ -90,7 +90,7 @@ const PitchDetection = () => {
         variant="outline-primary"
         size="lg"
       >
-        I'm ready
+        click to start
       </Button>
     );
   }

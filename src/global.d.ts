@@ -6,3 +6,5 @@ declare namespace ml5 {
     callback?: (error: any, result: any) => void
   ): Promise<any> | undefined;
 }
+
+declare module 'logrocket-react';

@@ -22,5 +22,8 @@ module.exports = merge(common, {
       template: path.resolve(SRC_DIR, "index.html"),
       title: "sing vocally",
     }),
+    new DefinePlugin({
+      RELEASE: "0.1",
+    }),
   ],
 });

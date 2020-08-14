@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const path = require("path");
 const common = require("./webpack.config.js");
+const { DefinePlugin } = require("webpack");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const SRC_DIR = path.join(ROOT_DIR, "src");
@@ -22,6 +23,9 @@ module.exports = merge(common, {
       template: path.resolve(SRC_DIR, "index.html"),
       title: "[DEV] sing vocally",
     }),
+    new DefinePlugin({
+      RELEASE: 'dev'
+    })
   ],
   devServer: {
     open: true,

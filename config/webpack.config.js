@@ -25,7 +25,7 @@ module.exports = {
   externals: [
     {
       ml5: "ml5",
-      logrocket: "LogRocket"
+      logrocket: "LogRocket",
     },
   ],
 
@@ -33,9 +33,20 @@ module.exports = {
     rules: [
       {
         test: /.tsx?$/,
-        loader: "ts-loader",
         include: [SRC_DIR],
         exclude: /node_modules/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-react", "@babel/preset-env"],
+              plugins: ["@babel/plugin-transform-react-display-name"],
+            },
+          },
+          {
+            loader: "ts-loader",
+          },
+        ],
       },
       {
         test: /\.css$/i,

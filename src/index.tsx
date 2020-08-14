@@ -7,7 +7,7 @@ import setupLogRocketReact from "logrocket-react";
 
 LogRocket.init("6ayqi7/vocallytest", {
   //@ts-ignore: Filled out by webpack.
-  release: RELEASE,
+  release: "RELEASE",
 });
 setupLogRocketReact(LogRocket);
 

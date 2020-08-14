@@ -1,3 +1,4 @@
+const { webpack } = require("webpack");
 const { merge } = require("webpack-merge");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
@@ -14,9 +15,8 @@ module.exports = merge(common, {
 
   resolve: {
     alias: {
-      log: path.resolve(SRC_DIR, "log.dev.ts")
-    }
-
+      log: path.resolve(SRC_DIR, "log.dev.ts"),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -24,8 +24,8 @@ module.exports = merge(common, {
       title: "[DEV] sing vocally",
     }),
     new DefinePlugin({
-      RELEASE: 'dev'
-    })
+      RELEASE: "dev",
+    }),
   ],
   devServer: {
     open: true,

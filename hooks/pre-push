@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
 
 echo >&2 "starting pre-push hook"
-if [ -n $(make clean dist)] then
+if ! [ "$(make clean dist)" ] 
+then
 	echo >&2 "Can't build, not pushing"
 	exit 1
 fi
+
+echo >&2 "looks fine, cleaning up after myself"
+make clean
 
 exit 0

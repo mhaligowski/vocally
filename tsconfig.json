@@ -14,5 +14,8 @@
     "resolveJsonModule": true,
     "traceResolution": true
   },
-  "exclude": ["node_modules", "webpack.*.js"]
+  "exclude": [
+    "node_modules",
+    "webpack.*.js"
+  ]
 }

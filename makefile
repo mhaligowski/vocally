@@ -19,4 +19,7 @@ clean:
 test:
 	$(NPX) jest
 
-.PHONY: run clean test analyze
+lint:
+	$(NPX) eslint --ext .js,.jsx,.ts,.tsx ./
+
+.PHONY: run clean test analyze lint

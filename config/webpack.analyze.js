@@ -1,8 +1,7 @@
-const { merge } = require("webpack-merge");
+const { merge } = require('webpack-merge');
 
-const common = require("./webpack.testing.js");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const common = require('./webpack.testing.js');
 
 module.exports = merge(common, {
   plugins: [new BundleAnalyzerPlugin()],

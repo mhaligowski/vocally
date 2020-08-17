@@ -1,4 +1,4 @@
-import { Pitch } from "./notes";
+import { Pitch } from './notes';
 
 interface Controllable {
   start: VoidFunction;
@@ -7,4 +7,4 @@ interface Controllable {
 
 export interface PitchDetectionGenerator
   extends Controllable,
-    AsyncGenerator<Pitch> {}
+  AsyncGenerator<Pitch> {}

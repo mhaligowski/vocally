@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 
 type GeneratorComponentProps<T> = {
-  generator: AsyncGenerator<T | undefined, any, any>;
+  generator: AsyncGenerator<T | null, any, any>;
   children: any;
-  onTick?: (t: T | undefined) => void;
+  onTick?: (t: T | null) => void;
 };
 
 function GeneratorComponent<T>(props: GeneratorComponentProps<T>) {
@@ -16,7 +16,7 @@ function GeneratorComponent<T>(props: GeneratorComponentProps<T>) {
     props.generator.next().then((result) => {
       if (result.done || !mounted) return;
 
-      setCurrentValue(result.value);
+      setCurrentValue(result.value || undefined);
       setFlag(!flag);
     });
 

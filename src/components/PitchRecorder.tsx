@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-import { PitchGenerator, Sample } from "pitch/pitch";
+import { PitchGenerator, Sample } from 'pitch/pitch';
 
-import { GeneratorComponent } from "./GeneratorComponent";
-import { getLogger } from "log";
-import { Spinner } from "react-bootstrap";
+import { getLogger } from 'log';
+import { Spinner } from 'react-bootstrap';
+import { GeneratorComponent } from './GeneratorComponent';
 
 const LOG = getLogger();
 
 type Recording = Sample[];
 type PitchRecorderProps = {
-  pitchGenerator?: PitchGenerator;
+  pitchGenerator: PitchGenerator;
   timeoutMs: number;
   onFinish: (samples: Recording) => void;
 };
@@ -26,25 +26,25 @@ export function PitchRecorder({
 
   useEffect(() => {
     if (!started) {
-      return;
+      return () => { };
     }
-    LOG.info("Setting up the timeout.");
+    LOG.info('Setting up the timeout.');
     const t = setTimeout(() => {
       setFinished(true);
       setStarted(false);
     }, timeoutMs);
 
-    LOG.info("Set up timer %d for %d ms.", t, timeoutMs);
+    LOG.info('Set up timer %d for %d ms.', t, timeoutMs);
 
     return () => {
-      LOG.info("Clearing out the timeout %d.", t);
+      LOG.info('Clearing out the timeout %d.', t);
       clearTimeout(t);
     };
   }, [started]);
 
   useEffect(() => {
     if (finished) {
-      LOG.info("Finishing recording.");
+      LOG.info('Finishing recording.');
       onFinish(recording);
     }
   }, [finished, recording]);

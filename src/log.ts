@@ -4,6 +4,6 @@ export interface Logger {
 }
 
 // Dummy placeholder for a logging function
-export function getLogger(): Logger {
+export default function getLogger(): Logger {
   throw new Error('This is unimplemented.');
 }

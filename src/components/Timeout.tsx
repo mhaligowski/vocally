@@ -1,4 +1,4 @@
-import { getLogger } from 'log';
+import getLogger from 'log';
 import { useEffect, useState } from 'react';
 
 const LOG = getLogger();
@@ -6,7 +6,7 @@ const LOG = getLogger();
 type AsyncCallback = () => Promise<void>;
 type Callback = () => void;
 
-export function useTimeout(
+export default function useTimeout(
   handler: AsyncCallback | Callback,
   ms: number,
 ) {

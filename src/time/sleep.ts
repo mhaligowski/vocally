@@ -2,4 +2,4 @@ const sleep = async (ms: number) => new Promise((resolve) => {
   setTimeout(resolve, ms);
 });
 
-export { sleep };
+export default sleep;

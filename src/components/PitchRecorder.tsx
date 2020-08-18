@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 
 import { PitchGenerator, Sample } from 'pitch/pitch';
 
-import { getLogger } from 'log';
+import getLogger from 'log';
 import { Spinner } from 'react-bootstrap';
-import { GeneratorComponent } from './GeneratorComponent';
+import GeneratorComponent from './GeneratorComponent';
 
 const LOG = getLogger();
 
@@ -15,7 +15,7 @@ type PitchRecorderProps = {
   onFinish: (samples: Recording) => void;
 };
 
-export function PitchRecorder({
+export default function PitchRecorder({
   pitchGenerator,
   timeoutMs,
   onFinish,

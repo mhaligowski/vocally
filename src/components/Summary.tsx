@@ -26,7 +26,7 @@ type SummaryProps = {
   reference: Pitch;
 };
 const sum = (a: number, b: number) => a + b;
-export function Summary({ recording, reference }: SummaryProps) {
+export default ({ recording, reference }: SummaryProps) => {
   const nonEmpty = recording.filter((s?: Sample) => !!s);
   const freqResult = nonEmpty
     .map((s: Sample) => s!.frequency - reference.frequency)
@@ -83,4 +83,4 @@ export function Summary({ recording, reference }: SummaryProps) {
       </Row>
     </Container>
   );
-}
+};

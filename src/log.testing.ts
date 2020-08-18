@@ -1,1 +1,1 @@
-export const getLogger = () => console;
+export default () => console;

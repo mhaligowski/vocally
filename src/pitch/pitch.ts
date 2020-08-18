@@ -1,7 +1,7 @@
 import 'ml5';
 
 import { note, Pitch } from 'pitch/notes';
-import { getLogger } from 'log';
+import getLogger from 'log';
 
 const LOG = getLogger();
 

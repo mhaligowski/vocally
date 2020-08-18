@@ -3,13 +3,13 @@ import './App.css';
 
 import clsx from 'clsx';
 
-import { getLogger } from 'log';
+import getLogger from 'log';
 import { Container } from 'react-bootstrap';
-import { PitchDetection } from './components/PitchDetection';
+import PitchDetection from './components/PitchDetection';
 
 const LOG = getLogger();
 
-export const App = () => {
+export default () => {
   LOG.info('Starting app.');
   return (
     <Container>

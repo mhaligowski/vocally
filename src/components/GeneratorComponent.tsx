@@ -37,4 +37,4 @@ function GeneratorComponent<T>(props: GeneratorComponentProps<T>) {
   return props.children;
 }
 
-export { GeneratorComponent };
+export default GeneratorComponent;

@@ -1,4 +1,4 @@
-import { sleep } from '../time/sleep';
+import sleep from '../time/sleep';
 
 async function* randomGenerator(): AsyncGenerator<number> {
   while (true) {
@@ -7,4 +7,4 @@ async function* randomGenerator(): AsyncGenerator<number> {
   }
 }
 
-export { randomGenerator };
+export default randomGenerator;

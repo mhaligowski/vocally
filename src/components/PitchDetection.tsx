@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
-import { getLogger } from 'log';
+import getLogger from 'log';
 
 import { ml5PitchDetection, PitchGenerator, Recording } from 'pitch/pitch';
 import { Pitch, note, noteToFreq } from 'pitch/notes';
 
-import { PitchRecorder } from './PitchRecorder';
-import { Summary } from './Summary';
+import PitchRecorder from './PitchRecorder';
+import Summary from './Summary';
 
 const LOG = getLogger();
 const PitchDetection = () => {
@@ -93,4 +93,4 @@ const PitchDetection = () => {
   );
 };
 
-export { PitchDetection };
+export default PitchDetection;

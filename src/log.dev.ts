@@ -1,3 +1,5 @@
+// THIS IS IS LOGGING CONFIGURATION ONLY TO BE USED IN DEVELOPMENT.
+// eslint-disable-next-line import/no-extraneous-dependencies
 import winston from 'winston';
 
 let INSTANCE: winston.Logger;

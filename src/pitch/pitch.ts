@@ -23,6 +23,8 @@ async function* ml5PitchDetection(
   LOG.info('Initialized the model.');
 
   while (stream.active && ctx.state === 'running') {
+    // This is fine as this is a generator code.
+    // eslint-disable-next-line no-await-in-loop
     const pitch = await pitchDetection.getPitch();
     if (pitch === null) {
       LOG.debug('Skipping');

@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 declare namespace ml5 {
   export function pitchDetection(
     model: string,

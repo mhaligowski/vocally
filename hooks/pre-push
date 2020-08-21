@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo -e >&2 "\xF0\x9F\x8E\xBC\e[33mstarting pre-push hook"
+echo -e >&2 "\xF0\x9F\x8E\xBC \033[0;33mstarting pre-push hook"
 make clean dist
 if ! [[ $? -eq 0 ]]; then
 	echo >&2 "\e[31mCan't build, not pushing"

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-echo >&2 "starting pre-push hook"
+echo -e >&2 "\xF0\x9F\x8E\xBC\e[33mstarting pre-push hook"
 make clean dist
 if ! [[ $? -eq 0 ]]; then
-	echo >&2 "Can't build, not pushing"
+	echo >&2 "\e[31mCan't build, not pushing"
 	exit 1
 fi
 
-echo >&2 "looks fine, cleaning up after myself"
+echo >&2 "\e[32mlooks fine, cleaning up after myself"
 make clean
 
 exit 0

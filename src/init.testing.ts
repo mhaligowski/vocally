@@ -1,5 +1,6 @@
 import * as Sentry from "@sentry/react";
 import { CaptureConsole } from "@sentry/integrations";
+import { Integrations as ApmIntegrations } from "@sentry/apm";
 
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
@@ -14,6 +15,7 @@ export default () => {
       new CaptureConsole({
         levels: ["info"],
       }),
+      new ApmIntegrations.Tracing(),
     ],
   });
 

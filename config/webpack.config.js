@@ -6,7 +6,6 @@ const DynamicCdnWebpackPlugin = require("dynamic-cdn-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackDeployPlugin = require("html-webpack-deploy-plugin");
 
 const ROOT_DIR = path.join(__dirname, "..");
 const SRC_DIR = path.join(ROOT_DIR, "src");
@@ -28,6 +27,8 @@ module.exports = {
       ml5: "ml5",
       logrocket: "LogRocket",
       "@sentry/browser": "Sentry",
+      "@sentry/apm": "Sentry",
+      "@sentry/integrations": "Sentry",
     },
   ],
 
@@ -59,20 +60,6 @@ module.exports = {
 
   plugins: [
     new webpack.ProgressPlugin(),
-    new HtmlWebpackDeployPlugin({
-      packages: {
-        "@sentry/browser": {
-          scripts: {
-            variableName: "Sentry",
-            path: "bundle.min.js",
-          },
-          useCdn: true,
-          getCdnPath: (packageName, packageVersion, packagePath) =>
-            `https://browser.sentry-cdn.com/${packageVersion}/${packagePath}`,
-        },
-      },
-      usePackagesPath: false,
-    }),
     new MiniCssExtractPlugin(),
     new DynamicCdnWebpackPlugin(),
     new FaviconsWebpackPlugin(path.resolve(ASSETS_DIR, "favicon.png")),

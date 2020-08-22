@@ -65,8 +65,9 @@
     "winston": "^3.3.3"
   },
   "dependencies": {
+    "@sentry/apm": "^5.21.3",
     "@sentry/integrations": "^5.21.3",
-    "@sentry/react": "^5.21.1",
+    "@sentry/react": "^5.21.3",
     "@sentry/tracing": "^5.21.3",
     "bootstrap": "^5.0.0-alpha1",
     "clsx": "^1.1.1",

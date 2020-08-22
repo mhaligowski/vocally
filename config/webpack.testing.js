@@ -48,6 +48,15 @@ module.exports = merge(common, {
           getCdnPath: (packageName, packageVersion, packagePath) =>
             `https://browser.sentry-cdn.com/${packageVersion}/${packagePath}`,
         },
+        "@sentry/integrations": {
+          scripts: {
+            variableName: "Sentry",
+            path: "canptureconsole.js",
+          },
+          useCdn: true,
+          getCdnPath: (packageName, packageVersion, packagePath) =>
+            `https://browser.sentry-cdn.com/${packageVersion}/${packagePath}`,
+        },
         "react-bootstrap": {
           scripts: {
             path: "react-bootstrap.js",

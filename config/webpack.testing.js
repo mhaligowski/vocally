@@ -59,6 +59,7 @@ module.exports = merge(common, {
         },
         "react-bootstrap": {
           scripts: {
+            variableName: "ReactBootstrap",
             path: "react-bootstrap.js",
           },
           useCdn: true,

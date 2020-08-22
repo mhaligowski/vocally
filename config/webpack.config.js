@@ -27,7 +27,7 @@ module.exports = {
     {
       ml5: "ml5",
       logrocket: "LogRocket",
-      "@sentry/browser": "Sentry"
+      "@sentry/browser": "Sentry",
     },
   ],
 

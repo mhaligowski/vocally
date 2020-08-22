@@ -22,7 +22,7 @@ module.exports = merge(common, {
 
   plugins: [
     new DefinePlugin({
-      RELEASE: "testing",
+      RELEASE: JSON.stringify("testing"),
     }),
     new HtmlWebpackPlugin({
       template: path.resolve(SRC_DIR, "index.html"),

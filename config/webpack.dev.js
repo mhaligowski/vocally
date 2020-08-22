@@ -24,7 +24,7 @@ module.exports = merge(common, {
       title: "[DEV] sing vocally",
     }),
     new DefinePlugin({
-      RELEASE: "dev",
+      RELEASE: JSON.stringify("dev"),
     }),
   ],
   devServer: {

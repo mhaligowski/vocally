@@ -2,7 +2,6 @@ const path = require("path");
 const webpack = require("webpack");
 
 // Webpack plugins
-const DynamicCdnWebpackPlugin = require("dynamic-cdn-webpack-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
 const RobotstxtPlugin = require("robotstxt-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -57,7 +56,6 @@ module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin(),
-    new DynamicCdnWebpackPlugin(),
     new FaviconsWebpackPlugin(path.resolve(ASSETS_DIR, "favicon.png")),
     new RobotstxtPlugin({
       policy: [

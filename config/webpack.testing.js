@@ -23,7 +23,7 @@ module.exports = merge(common, {
   externals: {
     ml5: "ml5",
     logrocket: "LogRocket",
-    "react-bootstrap": "react-bootstrap",
+    "react-bootstrap": "ReactBootstrap",
     "@sentry/browser": "Sentry",
     "@sentry/apm": "Sentry",
     "@sentry/integrations": "Sentry",
@@ -51,7 +51,7 @@ module.exports = merge(common, {
         "@sentry/integrations": {
           scripts: {
             variableName: "Sentry",
-            path: "canptureconsole.js",
+            path: "captureconsole.js",
           },
           useCdn: true,
           getCdnPath: (packageName, packageVersion, packagePath) =>

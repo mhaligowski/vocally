@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 type GeneratorComponentProps<T> = {
   generator: AsyncGenerator<T | null, any, any>;
@@ -31,7 +31,7 @@ function GeneratorComponent<T>(props: GeneratorComponentProps<T>) {
     }
   }, [currentValue]);
 
-  if (typeof props.children === 'function') {
+  if (typeof props.children === "function") {
     return props.children(currentValue);
   }
   return props.children;

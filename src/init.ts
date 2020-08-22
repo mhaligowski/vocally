@@ -1,2 +1,3 @@
-export default () => { // do nothing.
+export default () => {
+  // do nothing.
 };

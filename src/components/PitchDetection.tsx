@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
-import getLogger from 'log';
+import React, { useState, useEffect } from "react";
+import { Button } from "react-bootstrap";
+import getLogger from "log";
 
-import { ml5PitchDetection, PitchGenerator, Recording } from 'pitch/pitch';
-import { Pitch, note, noteToFreq } from 'pitch/notes';
+import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
+import { Pitch, note, noteToFreq } from "pitch/notes";
 
-import PitchRecorder from './PitchRecorder';
-import Summary from './Summary';
+import PitchRecorder from "./PitchRecorder";
+import Summary from "./Summary";
 
 const LOG = getLogger();
 const PitchDetection = () => {
@@ -15,7 +15,9 @@ const PitchDetection = () => {
   // Audio interfaces
   const [audioContext] = useState(new AudioContext()); // read-only
   const [stream, setStream] = useState<MediaStream>();
-  const [pitchDetectionGenerator, setPitchDetectionGenerator] = useState<PitchGenerator>();
+  const [pitchDetectionGenerator, setPitchDetectionGenerator] = useState<
+    PitchGenerator
+  >();
   const [recording, setRecording] = useState<Recording>();
 
   // Set up the microphone.
@@ -24,7 +26,7 @@ const PitchDetection = () => {
       return;
     }
 
-    LOG.info('Acquiring microphone.');
+    LOG.info("Acquiring microphone.");
     navigator.mediaDevices
       .getUserMedia({
         audio: true,
@@ -32,10 +34,10 @@ const PitchDetection = () => {
       })
       .then((newStream) => {
         LOG.debug(
-          'Microphone initialized with stream: %j, active?, %s, state: %s.',
+          "Microphone initialized with stream: %j, active?, %s, state: %s.",
           newStream,
           newStream.active,
-          newStream.getAudioTracks()[0].readyState,
+          newStream.getAudioTracks()[0].readyState
         );
         setStream(newStream);
       });
@@ -44,23 +46,23 @@ const PitchDetection = () => {
   // Configure the audio stream.
   useEffect(() => {
     if (!started || stream === undefined) {
-      return () => { };
+      return () => {};
     }
 
-    LOG.info('Setting up the context %j and stream %j', audioContext, stream);
+    LOG.info("Setting up the context %j and stream %j", audioContext, stream);
     audioContext.createMediaStreamSource(stream);
 
-    LOG.info('Initialized audio.');
+    LOG.info("Initialized audio.");
     setPitchDetectionGenerator(ml5PitchDetection(audioContext, stream));
     audioContext.resume();
 
     return () => {
-      LOG.info('Cleanup the audio settings');
+      LOG.info("Cleanup the audio settings");
 
-      LOG.debug('Stop all tracks in the stream %j.', stream);
+      LOG.debug("Stop all tracks in the stream %j.", stream);
       stream?.getTracks().forEach((t) => t.stop());
 
-      LOG.debug('Suspend audio context %j.', audioContext);
+      LOG.debug("Suspend audio context %j.", audioContext);
       audioContext.suspend();
     };
   }, [stream, started]);
@@ -69,11 +71,12 @@ const PitchDetection = () => {
     const referencePitch = note(noteToFreq(60)) as Pitch;
 
     return <Summary recording={recording} reference={referencePitch} />;
-  } if (started && pitchDetectionGenerator) {
+  }
+  if (started && pitchDetectionGenerator) {
     return (
       <PitchRecorder
         onFinish={(result) => {
-          LOG.info('Result, %j', result);
+          LOG.info("Result, %j", result);
           setRecording(result);
           setIsStarted(false);
         }}

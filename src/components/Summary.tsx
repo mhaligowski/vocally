@@ -1,12 +1,10 @@
-import React from 'react';
-import {
-  Alert, Container, Row, Col,
-} from 'react-bootstrap';
-import { Star, StarFill } from 'react-bootstrap-icons';
+import React from "react";
+import { Alert, Container, Row, Col } from "react-bootstrap";
+import { Star, StarFill } from "react-bootstrap-icons";
 
-import { Sample, Recording } from 'pitch/pitch';
-import { Pitch } from 'pitch/notes';
-import clsx from 'clsx';
+import { Sample, Recording } from "pitch/pitch";
+import { Pitch } from "pitch/notes";
+import clsx from "clsx";
 
 type RatingProps = {
   no: number;
@@ -18,7 +16,7 @@ function Rating({ no, of }: RatingProps) {
     stars.push(i <= no ? <StarFill /> : <Star />);
   }
 
-  return <div className={clsx('text-primary', 'display-3')}>{stars}</div>;
+  return <div className={clsx("text-primary", "display-3")}>{stars}</div>;
 }
 
 type SummaryProps = {
@@ -28,13 +26,15 @@ type SummaryProps = {
 const sum = (a: number, b: number) => a + b;
 export default ({ recording, reference }: SummaryProps) => {
   const nonEmpty = recording.filter((s?: Sample) => !!s);
-  const freqResult = nonEmpty
-    .map((s: Sample) => s!.frequency - reference.frequency)
-    .reduce(sum, 0) / nonEmpty.length;
+  const freqResult =
+    nonEmpty
+      .map((s: Sample) => s!.frequency - reference.frequency)
+      .reduce(sum, 0) / nonEmpty.length;
 
-  const midiResult = nonEmpty
-    .map((s: Sample) => Math.abs(s!.note - reference.note))
-    .reduce(sum, 0) / nonEmpty.length;
+  const midiResult =
+    nonEmpty
+      .map((s: Sample) => Math.abs(s!.note - reference.note))
+      .reduce(sum, 0) / nonEmpty.length;
 
   let starCount: number;
   if (midiResult <= 0.5) {
@@ -64,20 +64,10 @@ export default ({ recording, reference }: SummaryProps) => {
         </Col>
       </Row>
       <Row>
-        <Col className={clsx('col-md-6', 'offset-md-3')}>
+        <Col className={clsx("col-md-6", "offset-md-3")}>
           <Alert variant="success">
-            Received
-            {' '}
-            {nonEmpty.length}
-            {' '}
-            sample(s) averaging to
-            {' '}
-            {freqResult}
-            {' '}
-            from
-            C
-            <sub>4</sub>
-            .
+            Received {nonEmpty.length} sample(s) averaging to {freqResult} from
+            C<sub>4</sub>.
           </Alert>
         </Col>
       </Row>

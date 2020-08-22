@@ -8,4 +8,4 @@ declare namespace ml5 {
   ): Promise<any> | undefined;
 }
 
-declare module 'logrocket-react';
+declare module "logrocket-react";

@@ -25,10 +25,6 @@ module.exports = {
   externals: [
     {
       ml5: "ml5",
-      logrocket: "LogRocket",
-      "@sentry/browser": "Sentry",
-      "@sentry/apm": "Sentry",
-      "@sentry/integrations": "Sentry",
     },
   ],
 

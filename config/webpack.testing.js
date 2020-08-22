@@ -20,6 +20,15 @@ module.exports = merge(common, {
     },
   },
 
+  externals: {
+    ml5: "ml5",
+    logrocket: "LogRocket",
+    "react-bootstrap": "react-bootstrap",
+    "@sentry/browser": "Sentry",
+    "@sentry/apm": "Sentry",
+    "@sentry/integrations": "Sentry",
+  },
+
   plugins: [
     new DefinePlugin({
       RELEASE: JSON.stringify("testing"),
@@ -38,6 +47,14 @@ module.exports = merge(common, {
           useCdn: true,
           getCdnPath: (packageName, packageVersion, packagePath) =>
             `https://browser.sentry-cdn.com/${packageVersion}/${packagePath}`,
+        },
+        "react-bootstrap": {
+          scripts: {
+            path: "react-bootstrap.js",
+          },
+          useCdn: true,
+          getCdnPath: (packageName, packageVersion, packagePath) =>
+            `https://unpkg.com/${packageName}@${packageVersion}/dist/${packagePath}`,
         },
       },
       usePackagesPath: false,

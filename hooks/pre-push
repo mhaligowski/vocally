@@ -1,13 +1,31 @@
 #!/usr/bin/env bash
 
-echo -e >&2 "\xF0\x9F\x8E\xBC \033[0;33mstarting pre-push hook"
-make clean dist
+YELLOW="\033[0;33m"
+GREEN="\033[0;32m"
+RED="\033[0;32m"
+RESET="\033[0m"
+
+function info() {
+	printf "%b%b%b\n" $YELLOW "$1" $RESET >&2
+}
+
+function err() {
+	printf "%b%b%b\n" $RED "$1" $RESET >&2
+}
+
+function succ() {
+	printf "%b%b%b\n" $GREEN "$1" $RESET >&2
+}
+
+SCORE="\xF0\x9F\x8E\xBC"
+info "$SCORE starting pre-push hook"
+make lint clean dist
 if ! [[ $? -eq 0 ]]; then
-	echo >&2 "\e[31mCan't build, not pushing"
+	err "can't build, not pushing"
 	exit 1
 fi
 
-echo >&2 "\e[32mlooks fine, cleaning up after myself"
+succ "looks fine, cleaning up after myself"
 make clean
 
 exit 0

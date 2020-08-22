@@ -51,7 +51,7 @@ module.exports = merge(common, {
         },
         "@sentry/integrations": {
           scripts: {
-            variableName: "Sentry",
+            variableName: "Sentry.Integrations",
             path: "captureconsole.js",
           },
           useCdn: true,

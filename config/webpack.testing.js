@@ -15,6 +15,7 @@ module.exports = merge(common, {
   resolve: {
     alias: {
       log: path.resolve(SRC_DIR, "log.testing.ts"),
+      init: path.resolve(SRC_DIR, "init.testing.ts"),
     },
   },
 
@@ -24,7 +25,7 @@ module.exports = merge(common, {
       title: "sing vocally",
     }),
     new DefinePlugin({
-      RELEASE: "0.1",
+      RELEASE: "testing",
     }),
   ],
 });

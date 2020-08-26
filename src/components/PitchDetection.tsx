@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import getLogger from "log";
+import Sentry from "@sentry/react";
 
 import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
 import { Pitch, note, noteToFreq } from "pitch/notes";
@@ -10,6 +11,8 @@ import Summary from "./Summary";
 
 const LOG = getLogger();
 const PitchDetection = () => {
+  Sentry.useProfiler("PitchDetection");
+
   const [started, setIsStarted] = useState(false);
 
   // Audio interfaces

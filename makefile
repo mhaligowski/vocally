@@ -22,4 +22,7 @@ test:
 lint:
 	$(NPX) eslint --ext .js,.jsx,.ts,.tsx ./
 
+local:
+	$(NPX) live-server $(DIST)
+
 .PHONY: run clean test analyze lint

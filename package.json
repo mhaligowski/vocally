@@ -66,10 +66,10 @@
     "winston": "^3.3.3"
   },
   "dependencies": {
-    "@sentry/apm": "^5.21.4",
-    "@sentry/integrations": "^5.21.4",
-    "@sentry/react": "^5.21.4",
-    "@sentry/tracing": "^5.21.4",
+    "@sentry/integrations": "^5.22.2",
+    "@sentry/react": "^5.22.2",
+    "@sentry/tracing": "^5.22.2",
+    "@sentry/browser": "^5.22.2",
     "bootstrap": "^5.0.0-alpha1",
     "clsx": "^1.1.1",
     "logrocket": "^1.0.11",

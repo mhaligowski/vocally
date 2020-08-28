@@ -26,7 +26,7 @@ module.exports = merge(common, {
     logrocket: "LogRocket",
     "react-bootstrap": "ReactBootstrap",
     "@sentry/browser": "Sentry",
-    "@sentry/apm": "Sentry",
+    "@sentry/tracing": "Sentry",
     "@sentry/integrations": "Sentry",
   },
 
@@ -43,7 +43,7 @@ module.exports = merge(common, {
         "@sentry/browser": {
           scripts: {
             variableName: "Sentry",
-            path: "bundle.apm.min.js",
+            path: "bundle.tracing.js",
           },
           useCdn: true,
           getCdnPath: (packageName, packageVersion, packagePath) =>

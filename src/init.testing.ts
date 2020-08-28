@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/react";
 import * as Integrations from "@sentry/integrations";
-import { Integrations as ApmIntegrations } from "@sentry/apm";
+import { Integrations as TracingIntegrations } from "@sentry/tracing";
 
 import LogRocket from "logrocket";
 import setupLogRocketReact from "logrocket-react";
@@ -17,7 +17,7 @@ export default () => {
       new Integrations.CaptureConsole({
         levels: ["info"],
       }),
-      new ApmIntegrations.Tracing(),
+      new TracingIntegrations.BrowserTracing(),
     ],
   });
 

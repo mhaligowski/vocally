@@ -15,8 +15,12 @@ const PitchDetection = () => {
 
   const [started, setIsStarted] = useState(false);
 
+  // webkit vs all the others
+  // @ts-ignore
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+
   // Audio interfaces
-  const [audioContext] = useState(new AudioContext()); // read-only
+  const [audioContext] = useState(new AudioCtx()); // read-only
   const [stream, setStream] = useState<MediaStream>();
   const [pitchDetectionGenerator, setPitchDetectionGenerator] = useState<
     PitchGenerator

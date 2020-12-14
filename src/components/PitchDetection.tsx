@@ -22,9 +22,10 @@ const PitchDetection = () => {
   // Audio interfaces
   const [audioContext] = useState(new AudioCtx()); // read-only
   const [stream, setStream] = useState<MediaStream>();
-  const [pitchDetectionGenerator, setPitchDetectionGenerator] = useState<
-    PitchGenerator
-  >();
+  const [
+    pitchDetectionGenerator,
+    setPitchDetectionGenerator,
+  ] = useState<PitchGenerator>();
   const [recording, setRecording] = useState<Recording>();
 
   // Set up the microphone.

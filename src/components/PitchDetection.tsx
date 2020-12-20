@@ -5,6 +5,7 @@ import * as Sentry from "@sentry/react";
 
 import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
 import { Pitch, note, noteToFreq } from "pitch/notes";
+import sample from "audio/c4.ogg";
 
 import PitchRecorder from "./PitchRecorder";
 import Summary from "./Summary";

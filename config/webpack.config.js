@@ -30,6 +30,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.ogg$/i,
+        use: ["file-loader"],
+      },
+      {
         test: /.tsx?$/,
         include: [SRC_DIR],
         exclude: /node_modules/,
@@ -68,7 +72,7 @@ module.exports = {
   ],
 
   resolve: {
-    modules: [SRC_DIR, "node_modules"],
+    modules: [ASSETS_DIR, SRC_DIR, "node_modules"],
     extensions: [".ts", ".tsx", ".js"],
   },
 };

@@ -9,3 +9,4 @@ declare namespace ml5 {
 }
 
 declare module "logrocket-react";
+declare module "*.ogg";

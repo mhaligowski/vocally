@@ -5,13 +5,13 @@ import * as Sentry from "@sentry/react";
 
 import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
 import { Pitch, note, noteToFreq } from "pitch/notes";
-import sample from "audio/c4.ogg";
 
 import PitchRecorder from "./PitchRecorder";
 import Summary from "./Summary";
 
 const LOG = getLogger();
 const PitchDetection = () => {
+  LOG.info("[Widget] PitchDetection");
   Sentry.useProfiler("PitchDetection");
 
   const [started, setIsStarted] = useState(false);
@@ -100,7 +100,7 @@ const PitchDetection = () => {
       variant="outline-primary"
       size="lg"
     >
-      click to start
+      internal{" "}
     </Button>
   );
 };

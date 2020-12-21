@@ -1,10 +1,13 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import clsx from "clsx";
 
 import getLogger from "log";
 import { Container } from "react-bootstrap";
+import Hello from "pages/Hello";
+import Player from "pages/Player";
 import PitchDetection from "./components/PitchDetection";
 
 const LOG = getLogger();
@@ -21,7 +24,19 @@ export default () => {
       </header>
 
       <main className={clsx("text-center", "py-5")} role="main">
-        <PitchDetection />
+        <Router>
+          <Switch>
+            <Route path="/detection">
+              <PitchDetection />
+            </Route>
+            <Route path="/player">
+              <Player />
+            </Route>
+            <Route path="/">
+              <Hello link="/player" />
+            </Route>
+          </Switch>
+        </Router>
       </main>
 
       <footer className={clsx("py-3", "border-top", "text-muted")}>

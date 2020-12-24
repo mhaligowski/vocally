@@ -19,10 +19,11 @@ function Rating({ no, of }: RatingProps) {
   return <div className={clsx("text-primary", "display-3")}>{stars}</div>;
 }
 
-type SummaryProps = {
+export type SummaryProps = {
   recording: Recording;
   reference: Pitch;
 };
+
 const sum = (a: number, b: number) => a + b;
 export default ({ recording, reference }: SummaryProps) => {
   const nonEmpty = recording.filter((s?: Sample) => !!s);
@@ -63,6 +64,7 @@ export default ({ recording, reference }: SummaryProps) => {
           <Rating no={starCount} of={5} />
         </Col>
       </Row>
+
       <Row>
         <Col className={clsx("col-md-6", "offset-md-3")}>
           <Alert variant="success">

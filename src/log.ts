@@ -7,3 +7,8 @@ export interface Logger {
 export default function getLogger(): Logger {
   throw new Error("This is unimplemented.");
 }
+
+// Dummy hook implementation
+export function useLogger(): Logger {
+  throw new Error("This is unimplemented.");
+}

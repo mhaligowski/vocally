@@ -17,3 +17,7 @@ export default function getLogger(): winston.Logger {
   }
   return INSTANCE;
 }
+
+export function useLogger(): winston.Logger {
+  return getLogger();
+}

@@ -17,20 +17,23 @@ const Player = () => {
   logger.info("[Widget] Player");
   const [isPlaying, setIsPlaying] = useState(false);
 
-  if (isPlaying) {
-    return <Button>Playing...</Button>;
-  }
+  useEffect(() => {
+    logger.info("Changed playing: %s", isPlaying);
+  }, [isPlaying]);
+
+  const message = isPlaying ? "playing..." : "play reference";
 
   return (
     <Button
       variant="outline-primary"
       size="lg"
+      disabled={isPlaying}
       onClick={() => {
         setIsPlaying(true);
         play(() => setIsPlaying(false));
       }}
     >
-      click to preview
+      {message}
     </Button>
   );
 };

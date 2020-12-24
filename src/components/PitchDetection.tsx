@@ -6,12 +6,17 @@ import * as Sentry from "@sentry/react";
 import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
 import { Pitch, note, noteToFreq } from "pitch/notes";
 
+import { Redirect } from "react-router-dom";
 import PitchRecorder from "./PitchRecorder";
-import Summary from "./Summary";
 
 const LOG = getLogger();
-const PitchDetection = () => {
-  LOG.info("[Widget] PitchDetection");
+
+type RecorderProps = {
+  next: string;
+};
+
+const Recorder = ({ next: path }: RecorderProps) => {
+  LOG.info("[Widget] Recorder");
   Sentry.useProfiler("PitchDetection");
 
   const [started, setIsStarted] = useState(false);
@@ -67,7 +72,6 @@ const PitchDetection = () => {
 
     return () => {
       LOG.info("Cleanup the audio settings");
-
       LOG.debug("Stop all tracks in the stream %j.", stream);
       stream?.getTracks().forEach((t) => t.stop());
 
@@ -78,9 +82,16 @@ const PitchDetection = () => {
 
   if (recording !== undefined) {
     const referencePitch = note(noteToFreq(60)) as Pitch;
-
-    return <Summary recording={recording} reference={referencePitch} />;
+    return (
+      <Redirect
+        to={{
+          pathname: path,
+          state: { recording, reference: referencePitch },
+        }}
+      />
+    );
   }
+
   if (started && pitchDetectionGenerator) {
     return (
       <PitchRecorder
@@ -94,15 +105,16 @@ const PitchDetection = () => {
       />
     );
   }
+
   return (
     <Button
       onClick={() => setIsStarted(true)}
       variant="outline-primary"
       size="lg"
     >
-      internal{" "}
+      start singing!
     </Button>
   );
 };
 
-export default PitchDetection;
+export default Recorder;

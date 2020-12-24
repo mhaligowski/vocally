@@ -7,8 +7,8 @@ import clsx from "clsx";
 import getLogger from "log";
 import { Container } from "react-bootstrap";
 import Hello from "pages/Hello";
-import Player from "pages/Player";
-import PitchDetection from "./components/PitchDetection";
+import Preview from "pages/Preview";
+import Result from "pages/Result";
 
 const LOG = getLogger();
 
@@ -18,22 +18,20 @@ export default () => {
     <Container>
       <header className={clsx("text-center", "mt-5")}>
         <h1 className={clsx("display-1", "text-primary", "title")}>vocally</h1>
-        <h2 className="text-secondary">
-          sing C<sub>4</sub>!
-        </h2>
+        <h2 className="text-secondary">how clean can you sing?</h2>
       </header>
 
       <main className={clsx("text-center", "py-5")} role="main">
         <Router>
           <Switch>
-            <Route path="/detection">
-              <PitchDetection />
+            <Route path="/preview">
+              <Preview next="record" />
             </Route>
-            <Route path="/player">
-              <Player />
+            <Route path="/summary">
+              <Result />
             </Route>
             <Route path="/">
-              <Hello link="/player" />
+              <Hello next="/preview" />
             </Route>
           </Switch>
         </Router>

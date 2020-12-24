@@ -2,20 +2,20 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-import getLogger from "log";
-
-const logger = getLogger();
+import { useLogger } from "log";
 
 type HelloProps = {
-  link: string;
+  next: string;
 };
 
-const Hello = ({ link }: HelloProps) => {
-  logger.info("[Widget] Hello");
+const Hello = ({ next }: HelloProps) => {
+  const LOG = useLogger();
+  LOG.info("[Widget] Hello");
+
   return (
-    <Link to={link}>
+    <Link to={next}>
       <Button variant="outline-primary" size="lg">
-        click to start
+        start
       </Button>
     </Link>
   );

@@ -27,6 +27,7 @@ module.exports = merge(common, {
     "react-bootstrap": "ReactBootstrap",
     "@sentry/browser": "Sentry",
     "@sentry/tracing": "Sentry",
+    "@sentry/utils": "Sentry",
     "@sentry/integrations": "Sentry",
   },
 

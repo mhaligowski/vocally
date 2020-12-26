@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Container, Row, Col, Button, Spinner } from "react-bootstrap";
+import { Alert, Container, Row, Col } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 
 import { Sample, Recording } from "pitch/pitch";

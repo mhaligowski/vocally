@@ -5,7 +5,6 @@ import sample from "audio/c4.ogg";
 
 import getLogger from "log";
 import { Button, Spinner } from "react-bootstrap";
-import { count } from "console";
 import GeneratorComponent from "./GeneratorComponent";
 
 const LOG = getLogger();

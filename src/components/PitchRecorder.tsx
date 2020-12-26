@@ -4,7 +4,8 @@ import { PitchGenerator, Sample } from "pitch/pitch";
 import sample from "audio/c4.ogg";
 
 import getLogger from "log";
-import { Spinner } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
+import { count } from "console";
 import GeneratorComponent from "./GeneratorComponent";
 
 const LOG = getLogger();
@@ -24,6 +25,7 @@ export default function PitchRecorder({
   const [recording, setRecording] = useState<Recording>([]);
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [countdown, setCountdown] = useState<number>(0);
 
   const audio = new Audio(sample);
   audio.play();
@@ -37,12 +39,27 @@ export default function PitchRecorder({
       setFinished(true);
       setStarted(false);
     }, timeoutMs);
-
     LOG.info("Set up timer %d for %d ms.", t, timeoutMs);
 
     return () => {
       LOG.info("Clearing out the timeout %d.", t);
       clearTimeout(t);
+    };
+  }, [started]);
+
+  // Interval set up.
+  useEffect(() => {
+    if (!started) {
+      return () => {};
+    }
+
+    setCountdown(timeoutMs / 1000);
+    LOG.info("Setting the interval with countdown %d.", timeoutMs);
+    const interval = setInterval(() => setCountdown((prev) => prev - 1), 1000);
+
+    return () => {
+      LOG.info("Clearing out the interval %d.", interval);
+      clearInterval(interval);
     };
   }, [started]);
 
@@ -62,14 +79,25 @@ export default function PitchRecorder({
   };
 
   const label = !started ? (
-    <span>sing now!</span>
+    <h3 className="text-info">start singing!</h3>
   ) : (
-    <Spinner animation="grow" variant="danger" />
+    <Button variant="outline-primary" disabled>
+      <Spinner
+        as="span"
+        animation="grow"
+        role="status"
+        aria-hidden="true"
+        size="sm"
+        className="mr-2"
+        variant="danger"
+      />
+      {countdown}...
+    </Button>
   );
 
   return pitchGenerator ? (
     <GeneratorComponent generator={pitchGenerator} onTick={addSample}>
-      <h3>{label}</h3>
+      {label}
     </GeneratorComponent>
   ) : (
     <Spinner animation="border" variant="primary" />

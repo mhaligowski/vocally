@@ -9,6 +9,7 @@ import { Container } from "react-bootstrap";
 import Hello from "pages/Hello";
 import Preview from "pages/Preview";
 import Result from "pages/Result";
+import Detection from "components/PitchDetection";
 
 const LOG = getLogger();
 
@@ -25,7 +26,10 @@ export default () => {
         <Router>
           <Switch>
             <Route path="/preview">
-              <Preview next="record" />
+              <Preview next="/record" />
+            </Route>
+            <Route path="/record">
+              <Detection next="/summary" />
             </Route>
             <Route path="/summary">
               <Result />

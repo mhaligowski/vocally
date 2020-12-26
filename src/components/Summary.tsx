@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, Container, Row, Col } from "react-bootstrap";
+import { Alert, Container, Row, Col, Button, Spinner } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 
 import { Sample, Recording } from "pitch/pitch";
@@ -13,7 +13,7 @@ type RatingProps = {
 function Rating({ no, of }: RatingProps) {
   const stars = [];
   for (let i = 0; i < of; i += 1) {
-    stars.push(i <= no ? <StarFill /> : <Star />);
+    stars.push(i <= no ? <StarFill key={i} /> : <Star key={i} />);
   }
 
   return <div className={clsx("text-primary", "display-3")}>{stars}</div>;

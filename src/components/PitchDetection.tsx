@@ -1,53 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
-import getLogger from "log";
+import getLogger, { useLogger } from "log";
 import * as Sentry from "@sentry/react";
 
 import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
 import { Pitch, note, noteToFreq } from "pitch/notes";
 
 import { Redirect } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
 import PitchRecorder from "./PitchRecorder";
 
 const LOG = getLogger();
 
-type RecorderProps = {
+type DetectionProps = {
   next: string;
 };
 
-const Recorder = ({ next: path }: RecorderProps) => {
-  LOG.info("[Widget] Recorder");
-  Sentry.useProfiler("PitchDetection");
-
-  const [started, setIsStarted] = useState(false);
-
-  // webkit vs all the others
-  // @ts-ignore
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-
-  // Audio interfaces
-  const [audioContext] = useState(new AudioCtx()); // read-only
+function useMicrophone() {
   const [stream, setStream] = useState<MediaStream>();
-  const [
-    pitchDetectionGenerator,
-    setPitchDetectionGenerator,
-  ] = useState<PitchGenerator>();
-  const [recording, setRecording] = useState<Recording>();
+  const logger = useLogger();
 
-  // Set up the microphone.
+  // Set up the microphone. Do it once, so [] dependency.
   useEffect(() => {
-    if (!started) {
-      return;
-    }
-
-    LOG.info("Acquiring microphone.");
+    logger.info("Acquiring microphone.");
     navigator.mediaDevices
       .getUserMedia({
         audio: true,
         video: false,
       })
       .then((newStream) => {
-        LOG.debug(
+        logger.debug(
           "Microphone initialized with stream: %j, active?, %s, state: %s.",
           newStream,
           newStream.active,
@@ -55,18 +36,44 @@ const Recorder = ({ next: path }: RecorderProps) => {
         );
         setStream(newStream);
       });
-  }, [started]);
+  }, []);
+
+  return stream;
+}
+
+const Detection = ({ next: path }: DetectionProps) => {
+  LOG.info("[Widget] Recorder");
+  Sentry.useProfiler("PitchDetection");
+
+  // webkit vs all the others
+  // @ts-ignore
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+
+  // Audio interfaces
+  const [audioContext] = useState(new AudioCtx()); // read-only
+  const [
+    pitchDetectionGenerator,
+    setPitchDetectionGenerator,
+  ] = useState<PitchGenerator>();
+  const [recording, setRecording] = useState<Recording>();
+
+  // Set up the microphone. Do it once, so [] dependency.
+  const stream = useMicrophone();
 
   // Configure the audio stream.
   useEffect(() => {
-    if (!started || stream === undefined) {
+    if (stream === undefined) {
       return () => {};
     }
 
-    LOG.info("Setting up the context %j and stream %j", audioContext, stream);
-    audioContext.createMediaStreamSource(stream);
+    LOG.info(
+      "Setting up the context in state %j and stream %j",
+      audioContext.state,
+      stream.id
+    );
+    const node = audioContext.createMediaStreamSource(stream);
 
-    LOG.info("Initialized audio.");
+    LOG.info("Media stream source created.", node);
     setPitchDetectionGenerator(ml5PitchDetection(audioContext, stream));
     audioContext.resume();
 
@@ -78,8 +85,9 @@ const Recorder = ({ next: path }: RecorderProps) => {
       LOG.debug("Suspend audio context %j.", audioContext);
       audioContext.suspend();
     };
-  }, [stream, started]);
+  }, [stream]);
 
+  // Finished recording.
   if (recording !== undefined) {
     const referencePitch = note(noteToFreq(60)) as Pitch;
     return (
@@ -92,13 +100,12 @@ const Recorder = ({ next: path }: RecorderProps) => {
     );
   }
 
-  if (started && pitchDetectionGenerator) {
+  // recording is set up.
+  if (pitchDetectionGenerator) {
     return (
       <PitchRecorder
         onFinish={(result) => {
-          LOG.info("Result, %j", result);
           setRecording(result);
-          setIsStarted(false);
         }}
         pitchGenerator={pitchDetectionGenerator}
         timeoutMs={5000}
@@ -106,15 +113,7 @@ const Recorder = ({ next: path }: RecorderProps) => {
     );
   }
 
-  return (
-    <Button
-      onClick={() => setIsStarted(true)}
-      variant="outline-primary"
-      size="lg"
-    >
-      start singing!
-    </Button>
-  );
+  return <Spinner animation="border" variant="primary" />;
 };
 
-export default Recorder;
+export default Detection;

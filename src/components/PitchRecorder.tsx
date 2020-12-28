@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { PitchGenerator, Sample } from "pitch/pitch";
-import sample from "audio/c4.ogg";
 
 import getLogger from "log";
 import { Button, Spinner } from "react-bootstrap";
@@ -25,9 +24,6 @@ export default function PitchRecorder({
   const [started, setStarted] = useState(false);
   const [finished, setFinished] = useState(false);
   const [countdown, setCountdown] = useState<number>(0);
-
-  const audio = new Audio(sample);
-  audio.play();
 
   useEffect(() => {
     if (!started) {

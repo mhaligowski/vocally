@@ -5,6 +5,14 @@ import { Star, StarFill } from "react-bootstrap-icons";
 import { Sample, Recording } from "pitch/pitch";
 import { Pitch } from "pitch/notes";
 import clsx from "clsx";
+import {
+  LineChart,
+  Line,
+  ResponsiveContainer,
+  CartesianGrid,
+  YAxis,
+  ReferenceLine,
+} from "recharts";
 
 type RatingProps = {
   no: number;
@@ -25,6 +33,7 @@ export type SummaryProps = {
 };
 
 const sum = (a: number, b: number) => a + b;
+
 export default ({ recording, reference }: SummaryProps) => {
   const nonEmpty = recording.filter((s?: Sample) => !!s);
   const freqResult =
@@ -65,6 +74,28 @@ export default ({ recording, reference }: SummaryProps) => {
         </Col>
       </Row>
 
+      <Row>
+        <Col className={clsx("col-md-6", "offset-md-3")}>
+          <ResponsiveContainer width="100%" height={100}>
+            <LineChart height={100} width={400} data={nonEmpty as object[]}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <ReferenceLine
+                y={reference.note}
+                stroke="red"
+                strokeDasharray="3 3"
+              />
+
+              <Line
+                type="monotone"
+                dataKey="note"
+                stroke="#8884d8"
+                strokeWidth={2}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </Col>
+      </Row>
       <Row>
         <Col className={clsx("col-md-6", "offset-md-3")}>
           <Alert variant="success">

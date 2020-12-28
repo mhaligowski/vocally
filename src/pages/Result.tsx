@@ -1,4 +1,4 @@
-import Summary, { SummaryProps } from "components/Summary";
+import Summary, { SummaryProps } from "components/summary/Summary";
 import React from "react";
 import { useLocation } from "react-router-dom";
 

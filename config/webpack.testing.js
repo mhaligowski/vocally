@@ -68,6 +68,15 @@ module.exports = merge(common, {
           getCdnPath: (packageName, packageVersion, packagePath) =>
             `https://unpkg.com/${packageName}@${packageVersion}/dist/${packagePath}`,
         },
+        recharts: {
+          scripts: {
+            variableName: "Recharts",
+            path: "Recharts.js",
+          },
+          useCdn: true,
+          getCdnPath: (packageName, packageVersion, packagePath) =>
+            `https://unpkg.com/${packageName}@${packageVersion}/umd/${packagePath}`,
+        },
       },
       usePackagesPath: false,
     }),

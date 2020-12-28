@@ -30,7 +30,9 @@ const Player = () => {
       disabled={isPlaying}
       onClick={() => {
         setIsPlaying(true);
-        play(() => setIsPlaying(false));
+        play(() => {
+          setIsPlaying(false);
+        });
       }}
     >
       {message}

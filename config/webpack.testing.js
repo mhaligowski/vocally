@@ -28,6 +28,7 @@ module.exports = merge(common, {
     "@sentry/browser": "Sentry",
     "@sentry/tracing": "Sentry",
     "@sentry/utils": "Sentry",
+    "@sentry/profiler": "Sentry",
     "@sentry/integrations": "Sentry",
   },
 

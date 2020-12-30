@@ -17,18 +17,16 @@ async function* ml5PitchDetection(
   ctx: AudioContext,
   stream: MediaStream
 ): PitchGenerator {
-  const pitchDetection: any = ml5.pitchDetection(MODEL_URL, ctx, stream);
-  LOG.info("Created pitch detection.", pitchDetection);
+  const pitchDetection: any = await ml5.pitchDetection(MODEL_URL, ctx, stream);
 
   await pitchDetection.ready;
-  LOG.info("Initialized the model.");
 
   while (stream.active && ctx.state === "running") {
     // This is fine as this is a generator code.
     // eslint-disable-next-line no-await-in-loop
     const pitch = await pitchDetection.getPitch();
     if (pitch === null) {
-      LOG.debug("Skipping");
+      LOG.debug("No pitch detected.");
     } else {
       yield note(pitch);
     }

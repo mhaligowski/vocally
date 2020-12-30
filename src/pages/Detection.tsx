@@ -7,7 +7,7 @@ import { Pitch, note, noteToFreq } from "pitch/notes";
 
 import { Redirect } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
-import PitchRecorder from "./PitchRecorder";
+import PitchRecorder from "../components/PitchRecorder";
 
 const LOG = getLogger();
 
@@ -34,6 +34,7 @@ function useMicrophone() {
           newStream.active,
           newStream.getAudioTracks()[0].readyState
         );
+        newStream.getAudioTracks()[0].stop();
         setStream(newStream);
       });
   }, []);
@@ -102,6 +103,7 @@ const Detection = ({ next: path }: DetectionProps) => {
 
   // recording is set up.
   if (pitchDetectionGenerator) {
+    LOG.info(pitchDetectionGenerator);
     return (
       <PitchRecorder
         onFinish={(result) => {

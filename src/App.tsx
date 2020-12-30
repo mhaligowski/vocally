@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import clsx from "clsx";
@@ -9,7 +9,7 @@ import { Container } from "react-bootstrap";
 import Hello from "pages/Hello";
 import Preview from "pages/Preview";
 import Result from "pages/Result";
-import Detection from "components/PitchDetection";
+import Detection from "pages/Detection";
 
 const LOG = getLogger();
 
@@ -17,13 +17,17 @@ export default () => {
   LOG.info("Starting app.");
   return (
     <Container>
-      <header className={clsx("text-center", "mt-5")}>
-        <h1 className={clsx("display-1", "text-primary", "title")}>vocally</h1>
-        <h2 className="text-secondary">how clean can you sing?</h2>
-      </header>
+      <Router>
+        <header className={clsx("text-center", "mt-5")}>
+          <Link to="/" className={clsx("title", "navbar-brand")}>
+            <h1 className={clsx("display-1", "text-primary", "title")}>
+              vocally
+            </h1>
+          </Link>
+          <p className="text-secondary lead">how clean can you sing?</p>
+        </header>
 
-      <main className={clsx("text-center", "py-5")} role="main">
-        <Router>
+        <main className={clsx("text-center", "py-5")} role="main">
           <Switch>
             <Route path="/preview">
               <Preview next="/record" />
@@ -38,14 +42,14 @@ export default () => {
               <Hello next="/preview" />
             </Route>
           </Switch>
-        </Router>
-      </main>
+        </main>
 
-      <footer className={clsx("py-3", "border-top", "text-muted")}>
-        <Container>
-          <p>vocally.app 2020</p>
-        </Container>
-      </footer>
+        <footer className={clsx("py-3", "border-top", "text-muted")}>
+          <Container>
+            <p>vocally.app 2020</p>
+          </Container>
+        </footer>
+      </Router>
     </Container>
   );
 };

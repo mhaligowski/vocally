@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, ButtonGroup } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import Player from "../components/Player";
 
@@ -8,13 +8,25 @@ type PreviewProps = {
 };
 
 export default ({ next }: PreviewProps) => (
-  <ButtonGroup>
-    <Player />
+  <Container className="text-center">
+    <Row>
+      <Col>
+        <h2 className="display-6">step 1: listen to the sample note</h2>
+      </Col>
+    </Row>
 
-    <LinkContainer to={next}>
-      <Button variant="outline-primary" size="lg">
-        start
-      </Button>
-    </LinkContainer>
-  </ButtonGroup>
+    <Row className="mt-3">
+      <Col>
+        <ButtonGroup>
+          <Player />
+
+          <LinkContainer to={next}>
+            <Button variant="outline-primary" size="lg">
+              start singing!
+            </Button>
+          </LinkContainer>
+        </ButtonGroup>
+      </Col>
+    </Row>
+  </Container>
 );

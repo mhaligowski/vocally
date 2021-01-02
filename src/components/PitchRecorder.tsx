@@ -25,10 +25,12 @@ export default function PitchRecorder({
   const [finished, setFinished] = useState(false);
   const [countdown, setCountdown] = useState<number>(0);
 
+  // Sets up the singing.
   useEffect(() => {
     if (!started) {
       return () => {};
     }
+
     LOG.info("Setting up the timeout.");
     const t = setTimeout(() => {
       setFinished(true);
@@ -42,7 +44,7 @@ export default function PitchRecorder({
     };
   }, [started]);
 
-  // Interval set up.
+  // Interval set up for the countdown.
   useEffect(() => {
     if (!started) {
       return () => {};
@@ -58,6 +60,7 @@ export default function PitchRecorder({
     };
   }, [started]);
 
+  // Wraps up the recording.
   useEffect(() => {
     if (finished) {
       LOG.info("Finishing recording.");

@@ -6,7 +6,7 @@ import { ml5PitchDetection, PitchGenerator, Recording } from "pitch/pitch";
 import { Pitch, note, noteToFreq } from "pitch/notes";
 
 import { Redirect } from "react-router-dom";
-import { Spinner } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import PitchRecorder from "../components/PitchRecorder";
 
 const LOG = getLogger();
@@ -43,8 +43,8 @@ function useMicrophone() {
 }
 
 const Detection = ({ next: path }: DetectionProps) => {
-  LOG.info("[Widget] Recorder");
-  Sentry.useProfiler("PitchDetection");
+  LOG.info("Recorder");
+  Sentry.useProfiler("Detection");
 
   // webkit vs all the others
   // @ts-ignore
@@ -101,10 +101,11 @@ const Detection = ({ next: path }: DetectionProps) => {
     );
   }
 
+  let outputWidget;
   // recording is set up.
   if (pitchDetectionGenerator) {
     LOG.info(pitchDetectionGenerator);
-    return (
+    outputWidget = (
       <PitchRecorder
         onFinish={(result) => {
           setRecording(result);
@@ -113,9 +114,23 @@ const Detection = ({ next: path }: DetectionProps) => {
         timeoutMs={5000}
       />
     );
+  } else {
+    outputWidget = <Spinner animation="border" variant="primary" />;
   }
 
-  return <Spinner animation="border" variant="primary" />;
+  return (
+    <Container>
+      <Row className="text-center">
+        <Col>
+          <h2 className="display-6">step 2: sing the pitch you heard!</h2>
+        </Col>
+      </Row>
+
+      <Row className="text-center">
+        <Col>{outputWidget}</Col>
+      </Row>
+    </Container>
+  );
 };
 
 export default Detection;

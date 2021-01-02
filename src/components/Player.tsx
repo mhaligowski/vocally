@@ -14,14 +14,14 @@ const play = (onEnd: () => void) => {
 };
 
 const Player = () => {
-  logger.info("[Widget] Player");
+  logger.info("Player");
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     logger.info("Changed playing: %s", isPlaying);
   }, [isPlaying]);
 
-  const message = isPlaying ? "playing..." : "play reference";
+  const message = isPlaying ? "playing..." : "play the note";
 
   return (
     <Button

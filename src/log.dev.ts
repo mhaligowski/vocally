@@ -18,6 +18,7 @@ export default function getLogger(): winston.Logger {
   return INSTANCE;
 }
 
-export function useLogger(): winston.Logger {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function useLogger(source?: string): winston.Logger {
   return getLogger();
 }

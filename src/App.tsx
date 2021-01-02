@@ -19,15 +19,14 @@ export default () => {
     <Container>
       <Router>
         <header className={clsx("text-center", "mt-5")}>
-          <Link to="/" className={clsx("title", "navbar-brand")}>
+          <Link to="/" className={clsx("navbar-brand")}>
             <h1 className={clsx("display-1", "text-primary", "title")}>
               vocally
             </h1>
           </Link>
-          <p className="text-secondary lead">how clean can you sing?</p>
         </header>
 
-        <main className={clsx("text-center", "py-5")} role="main">
+        <main className={clsx("pb-5")} role="main">
           <Switch>
             <Route path="/preview">
               <Preview next="/record" />
@@ -46,7 +45,7 @@ export default () => {
 
         <footer className={clsx("py-3", "border-top", "text-muted")}>
           <Container>
-            <p>vocally.app 2020</p>
+            <p>2020-2021 vocally.app</p>
           </Container>
         </footer>
       </Router>

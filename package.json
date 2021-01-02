@@ -1,18 +1,18 @@
 {
-  "name": "lark",
+  "name": "vocally",
   "version": "1.0.0",
   "description": "Voice pitch detection in the browser",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mhaligowski/lark.git"
+    "url": "git+https://github.com/mhaligowski/vocally.git"
   },
   "author": "mhlg <mhaligowski@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "bugs": {
-    "url": "https://github.com/mhaligowski/lark/issues"
+    "url": "https://github.com/mhaligowski/vocally/issues"
   },
-  "homepage": "https://mhaligowski.github.io/lark",
+  "homepage": "https://vocally.app/",
   "husky": {
     "hooks": {
       "pre-push": "hooks/pre-push"

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "lark",
+  "name": "vocally",
   "description": "Voice pitch detection in the browser",
   "icons": {
     "60": "/assets/firefox_app_60x60.png",

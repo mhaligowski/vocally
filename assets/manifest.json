@@ -1,6 +1,6 @@
 {
-  "name": "lark",
-  "short_name": "lark",
+  "name": "vocally",
+  "short_name": "vocally",
   "description": "Voice pitch detection in the browser",
   "dir": "auto",
   "lang": "en-US",

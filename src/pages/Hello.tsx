@@ -23,10 +23,10 @@ const Hello = ({ next }: HelloProps) => {
       <Row className="mt-5">
         <Col>
           <p>
-            <span className="logo">vocally</span> lets you put your singing
+            <span className="logo">vocally</span> lets you put your singing{" "}
             <strong>voice</strong> to the test. No sign-ups, no payments, no
-            tracking, no content sharing. Your voice recording is
-            <strong>not being stored anywhere</strong>, so you don&apos;t have
+            tracking, no content sharing. Your voice recording is{" "}
+            <strong>not being stored anywhere </strong>, so you don&lsquo;t have
             worry about someone listening to you.
           </p>
 

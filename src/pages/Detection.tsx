@@ -34,7 +34,9 @@ function useMicrophone() {
           newStream.active,
           newStream.getAudioTracks()[0].readyState
         );
-        newStream.getAudioTracks()[0].stop();
+        newStream.getAudioTracks().forEach((t) => {
+          t.enabled = false; // eslint-disable-line no-param-reassign
+        });
         setStream(newStream);
       });
   }, []);
@@ -104,7 +106,7 @@ const Detection = ({ next: path }: DetectionProps) => {
   let outputWidget;
   // recording is set up.
   if (pitchDetectionGenerator) {
-    LOG.info(pitchDetectionGenerator);
+    LOG.info("Setting up actual recorder, %j", pitchDetectionGenerator);
     outputWidget = (
       <PitchRecorder
         onFinish={(result) => {

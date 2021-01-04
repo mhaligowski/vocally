@@ -68,7 +68,7 @@ export default ({ recording, reference }: SummaryProps) => {
   return (
     <Container>
       <Row>
-        <Col className="pb-3">
+        <Col className={clsx("pb-3", "col-md-6", "offset-md-3", "text-center")}>
           <Rating no={starCount} of={5} />
         </Col>
       </Row>

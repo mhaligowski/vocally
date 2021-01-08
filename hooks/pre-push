@@ -19,7 +19,8 @@ function succ() {
 
 SCORE="\xF0\x9F\x8E\xBC"
 info "$SCORE starting pre-push hook"
-make lint clean dist
+
+make test lint clean dist
 if ! [[ $? -eq 0 ]]; then
 	err "can't build, not pushing"
 	exit 1

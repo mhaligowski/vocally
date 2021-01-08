@@ -3,7 +3,7 @@ import { Alert, Container, Row, Col } from "react-bootstrap";
 import { Star, StarFill } from "react-bootstrap-icons";
 
 import { Sample, Recording } from "pitch/pitch";
-import { Pitch } from "pitch/notes";
+import { note, noteToFreq, Pitch } from "pitch/notes";
 import clsx from "clsx";
 import {
   LineChart,
@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
   ReferenceLine,
+  YAxis,
 } from "recharts";
 
 type RatingProps = {
@@ -65,6 +66,7 @@ export default ({ recording, reference }: SummaryProps) => {
     starCount = 0;
   }
 
+  console.info(note(noteToFreq(60)));
   return (
     <Container>
       <Row>
@@ -75,7 +77,7 @@ export default ({ recording, reference }: SummaryProps) => {
 
       <Row>
         <Col className={clsx("col-md-6", "offset-md-3")}>
-          <ResponsiveContainer width="100%" height={100}>
+          <ResponsiveContainer width="100%" height={200}>
             <LineChart height={100} width={400} data={nonEmpty as object[]}>
               <CartesianGrid strokeDasharray="3 3" />
               <ReferenceLine
@@ -84,6 +86,7 @@ export default ({ recording, reference }: SummaryProps) => {
                 strokeDasharray="3 3"
               />
 
+              <YAxis domain={[50, 70]} ticks={[50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60]} interval={0} />
               <Line
                 type="monotone"
                 dataKey="note"

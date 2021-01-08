@@ -15,7 +15,8 @@ const notes: string[] = [
 const name = (note: number): string => notes[(note - 21) % 12];
 const octave = (note: number): number => Math.floor(note / 12 - 1);
 
-const noteToFreq = (note: number): number => 440 * ((note - 69) / 12) ** 2;
+const noteToFreq = (note: number): number =>
+  440 * Math.pow(2, (note - 69) / 12);
 
 const freqToNote = (freq: number): number => 69 + 12 * Math.log2(freq / 440);
 

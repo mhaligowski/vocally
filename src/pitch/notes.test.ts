@@ -1,4 +1,8 @@
-import { note } from "./notes";
+import { note, noteToFreq } from "./notes";
+
+it("should convert note to frequency", () => {
+  expect(noteToFreq(69)).toBe(440);
+});
 
 it("should give the same note if perfect", () => {
   const freq = 440; // A4
@@ -44,9 +48,9 @@ it("should give a correct octave for high C", () => {
 });
 
 it("should return undefined when the input is null", () => {
-  expect(note(null)).toBeUndefined();
+  expect(note(null)).toBeNull();
 });
 
 it("should return undefined when the input is undefined", () => {
-  expect(note(undefined)).toBeUndefined();
+  expect(note(undefined)).toBeNull();
 });

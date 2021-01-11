@@ -7,15 +7,16 @@ import sample from "audio/c4.ogg";
 
 const logger = getLogger();
 
-const play = (onEnd: () => void) => {
-  const audio = new Audio(sample);
-  audio.onended = onEnd;
-  audio.play();
-};
-
 const Player = () => {
-  logger.info("Player");
   const [isPlaying, setIsPlaying] = useState(false);
+  const [audioSample] = useState(new Audio(sample));
+
+  const play = (onEnd: () => void) => {
+    audioSample.src = sample;
+    audioSample.onended = onEnd;
+    audioSample.muted = false;
+    audioSample.play();
+  };
 
   useEffect(() => {
     logger.info("Changed playing: %s", isPlaying);

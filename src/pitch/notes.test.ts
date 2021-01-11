@@ -13,7 +13,7 @@ it("should give the same note if perfect", () => {
   expect(result?.diff).toEqual(0);
   expect(result?.target.frequency).toEqual(440);
   expect(result?.target.name).toEqual("A");
-  expect(result?.target.note).toEqual(69); // nice
+  expect(result?.target.midiNote).toEqual(69); // nice
   expect(result?.target.octave).toEqual(4);
 });
 
@@ -25,7 +25,7 @@ it("should find a positive diff if above", () => {
   expect(result?.diff).toBeGreaterThan(0);
   expect(result?.target.frequency).toEqual(440);
   expect(result?.target.name).toEqual("A");
-  expect(result?.target.note).toEqual(69); // nice
+  expect(result?.target.midiNote).toEqual(69); // nice
   expect(result?.target.octave).toEqual(4);
 });
 
@@ -37,7 +37,7 @@ it("should find a negative diff if above", () => {
   expect(result?.diff).toBeLessThan(0);
   expect(result?.target.frequency).toEqual(440);
   expect(result?.target.name).toEqual("A");
-  expect(result?.target.note).toEqual(69); // nice
+  expect(result?.target.midiNote).toEqual(69); // nice
   expect(result?.target.octave).toEqual(4);
 });
 

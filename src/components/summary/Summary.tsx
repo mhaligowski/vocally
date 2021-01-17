@@ -13,7 +13,9 @@ import {
   ReferenceLine,
   Text,
   YAxis,
+  Label,
 } from "recharts";
+import { useLogger } from "log";
 
 type RatingProps = {
   no: number;
@@ -36,11 +38,8 @@ export type SummaryProps = {
 const sum = (a: number, b: number) => a + b;
 
 export default ({ recording, reference }: SummaryProps) => {
+  const logger = useLogger("Summary");
   const nonEmpty: Pitch[] = recording.filter((s?: Sample) => !!s) as Pitch[];
-  const freqResult =
-    nonEmpty
-      .map((s: Sample) => s!.frequency - reference.frequency)
-      .reduce(sum, 0) / nonEmpty.length;
 
   const midiResult =
     nonEmpty
@@ -48,24 +47,38 @@ export default ({ recording, reference }: SummaryProps) => {
       .reduce(sum, 0) / nonEmpty.length;
 
   let starCount: number;
+  let message: string;
   if (midiResult <= 0.5) {
+    // perfect match
     starCount = 5;
+    message = "Spot on!";
   } else if (midiResult <= 1) {
     // within half step
     starCount = 4;
+    message = "Almost perfect";
   } else if (midiResult <= 2) {
     // within whole step
     starCount = 3;
+    message = "Good!";
   } else if (midiResult <= 4) {
     // within third
     starCount = 2;
+    message = "That's the spirit!";
   } else if (midiResult <= 7) {
-    // withinn fifth
+    // within fifth
     starCount = 1;
+    message = "Off-pitch :(";
   } else {
     // you suck
     starCount = 0;
+    message = "Why don't you try again?";
   }
+
+  logger.debug("Midi result: %j", midiResult);
+  const domainCenter = 60;
+  const domainMargin = 2;
+  const domainStart = domainCenter - Math.floor(midiResult) - domainMargin; // down by average + mar
+  const domainEnd = domainCenter + Math.floor(midiResult) + domainMargin * 2; // up by average + mar
   return (
     <Container>
       <Row>
@@ -73,7 +86,13 @@ export default ({ recording, reference }: SummaryProps) => {
           <Rating no={starCount} of={5} />
         </Col>
       </Row>
-
+      <Row>
+        <Col className={clsx("col-md-6", "offset-md-3")}>
+          <Alert variant="success" className={clsx("text-center")}>
+            {message}
+          </Alert>
+        </Col>
+      </Row>
       <Row>
         <Col className={clsx("col-md-6", "offset-md-3")}>
           <ResponsiveContainer width="100%" height={400}>
@@ -83,19 +102,22 @@ export default ({ recording, reference }: SummaryProps) => {
                 y={reference.midiNote}
                 stroke="red"
                 strokeDasharray="3 3"
-              />
+              >
+                <Label position="top">reference</Label>
+              </ReferenceLine>
 
               <YAxis
                 interval={0}
                 minTickGap={1}
-                domain={[54, 66]}
-                ticks={Array(12)
+                allowDecimals={false}
+                domain={[domainStart, domainEnd]}
+                ticks={Array(domainEnd - domainStart)
                   .fill(0)
-                  .map((_, i) => i + 54)}
+                  .map((_, i) => i + domainStart)}
                 tick={(props: any) => {
                   return (
                     // eslint-disable-next-line react/jsx-props-no-spreading
-                    <Text {...props}>{noteName(props.payload.value)}</Text>
+                    <Text {...props}>{`${noteName(props.payload.value)}`}</Text>
                   );
                 }}
               />
@@ -106,16 +128,11 @@ export default ({ recording, reference }: SummaryProps) => {
                 strokeWidth={2}
                 dot={false}
               />
+              <ReferenceLine y={domainCenter - midiResult}>
+                <Label position="top">you</Label>
+              </ReferenceLine>
             </LineChart>
           </ResponsiveContainer>
-        </Col>
-      </Row>
-      <Row>
-        <Col className={clsx("col-md-6", "offset-md-3")}>
-          <Alert variant="success">
-            Received {nonEmpty.length} sample(s) averaging to {freqResult} from
-            C<sub>4</sub>.
-          </Alert>
         </Col>
       </Row>
     </Container>

@@ -109,11 +109,9 @@ const Detection = ({ next: path }: DetectionProps) => {
     LOG.info("Setting up actual recorder, %j", pitchDetectionGenerator);
     outputWidget = (
       <PitchRecorder
-        onFinish={(result) => {
-          setRecording(result);
-        }}
+        onFinish={setRecording}
         pitchGenerator={pitchDetectionGenerator}
-        timeoutMs={5000}
+        timeoutMs={4000}
       />
     );
   } else {

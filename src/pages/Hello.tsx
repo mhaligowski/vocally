@@ -21,7 +21,7 @@ const Hello = ({ next }: HelloProps) => {
         </Col>
       </Row>
       <Row className="mt-5">
-        <Col sm={12}>
+        <Col sm={12} md={6}>
           <p>
             <span className="logo">vocally</span> lets you put your singing{" "}
             <strong>voice</strong> to the test. No sign-ups, no payments, no

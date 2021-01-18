@@ -32,7 +32,7 @@ export default () => {
               <Preview next="/record" />
             </Route>
             <Route path="/record">
-              <Detection next="/summary" />
+              <Detection next="/summary" reference={60} timeout={3000} />
             </Route>
             <Route path="/summary">
               <Result />
